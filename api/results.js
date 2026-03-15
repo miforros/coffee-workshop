@@ -26,7 +26,11 @@ export default async function handler(req, res) {
     const raw = await Promise.all(keys.map(k => redis.get(k)));
     const responses = raw
       .filter(Boolean)
-      .map(r => JSON.parse(r));
+      .map((r, i) => {
+        const parsed = JSON.parse(r);
+        parsed._id = keys[i]; // attach the Redis key as ID for deletion
+        return parsed;
+      });
 
     return res.status(200).json({ total: Number(total), responses });
 

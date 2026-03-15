@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wyniki Ankiety – Warsztaty Kawowe</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
     --cream: #f5f0e8;
@@ -15,7 +14,8 @@
     --foam: #faf6ef;
     --text: #2c1810;
     --muted: #7a6355;
-    --green: #4a7c59;
+    --danger: #b94040;
+    --danger-light: rgba(185,64,64,0.08);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,7 +46,7 @@
     padding: 60px 24px 80px;
   }
 
-  /* Auth screen */
+  /* Auth */
   #auth-screen {
     display: flex;
     flex-direction: column;
@@ -56,21 +56,9 @@
     text-align: center;
     gap: 24px;
   }
-
-  #auth-screen h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--espresso);
-  }
-
+  #auth-screen h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--espresso); }
   #auth-screen p { color: var(--muted); }
-
-  .auth-input-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
+  .auth-input-row { display: flex; gap: 10px; align-items: center; }
   #key-input {
     padding: 12px 18px;
     border: 1.5px solid var(--latte);
@@ -83,6 +71,7 @@
     width: 220px;
   }
   #key-input:focus { border-color: var(--caramel); }
+  #auth-error { color: var(--danger); font-size: 0.9rem; display: none; }
 
   .btn {
     background: var(--espresso);
@@ -100,25 +89,28 @@
   }
   .btn:hover { background: var(--caramel); }
 
-  #auth-error { color: #b94040; font-size: 0.9rem; display: none; }
+  /* Loading */
+  #loading { text-align: center; padding: 80px 20px; color: var(--muted); display: none; }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid rgba(196,125,46,0.2);
+    border-top-color: var(--caramel);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
 
   /* Dashboard */
   #dashboard { display: none; }
 
-  .dash-header {
-    margin-bottom: 48px;
-    animation: fadeUp 0.6s ease both;
-  }
-
+  .dash-header { margin-bottom: 40px; animation: fadeUp 0.6s ease both; }
   .dash-header h1 {
     font-family: 'Playfair Display', serif;
     font-size: clamp(1.8rem, 4vw, 2.6rem);
     color: var(--espresso);
     margin-bottom: 8px;
   }
-
   .dash-header p { color: var(--muted); }
-
   .total-badge {
     display: inline-flex;
     align-items: center;
@@ -130,36 +122,62 @@
     font-size: 0.9rem;
     margin-top: 16px;
   }
-
   .total-badge strong { font-size: 1.3rem; }
 
-  /* Section */
+  /* Tab navigation */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    background: var(--foam);
+    border: 1px solid rgba(196,125,46,0.15);
+    border-radius: 12px;
+    padding: 6px;
+    animation: fadeUp 0.5s ease 0.1s both;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--muted);
+    transition: all 0.2s ease;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    background: var(--espresso);
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  /* Panels */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Section (charts) */
   .section {
     background: var(--foam);
     border: 1px solid rgba(196,125,46,0.15);
     border-radius: 16px;
     padding: 28px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     animation: fadeUp 0.5s ease both;
   }
-
-  .section:nth-child(1) { animation-delay: 0.1s; }
-  .section:nth-child(2) { animation-delay: 0.2s; }
-  .section:nth-child(3) { animation-delay: 0.3s; }
-  .section:nth-child(4) { animation-delay: 0.4s; }
-  .section:nth-child(5) { animation-delay: 0.5s; }
-  .section:nth-child(6) { animation-delay: 0.6s; }
-
   .section h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--espresso);
     margin-bottom: 20px;
     padding-bottom: 12px;
     border-bottom: 1px solid rgba(196,125,46,0.15);
   }
-
-  .section h2 .q-tag {
+  .q-tag {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.7rem;
     font-weight: 500;
@@ -169,28 +187,12 @@
     margin-right: 8px;
   }
 
-  /* Bar chart (CSS-based) */
+  /* Bars */
   .bar-list { display: flex; flex-direction: column; gap: 12px; }
-
   .bar-item { display: flex; flex-direction: column; gap: 4px; }
-
-  .bar-label-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: 0.88rem;
-    color: var(--text);
-  }
-
+  .bar-label-row { display: flex; justify-content: space-between; font-size: 0.88rem; }
   .bar-count { font-size: 0.8rem; color: var(--muted); }
-
-  .bar-track {
-    height: 10px;
-    background: rgba(196,125,46,0.12);
-    border-radius: 99px;
-    overflow: hidden;
-  }
-
+  .bar-track { height: 10px; background: rgba(196,125,46,0.12); border-radius: 99px; overflow: hidden; }
   .bar-fill {
     height: 100%;
     background: linear-gradient(to right, var(--caramel), var(--latte));
@@ -199,75 +201,63 @@
     width: 0;
   }
 
-  /* Text responses */
-  .responses-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 340px;
-    overflow-y: auto;
-    padding-right: 6px;
-  }
-
-  .responses-list::-webkit-scrollbar { width: 4px; }
-  .responses-list::-webkit-scrollbar-track { background: transparent; }
-  .responses-list::-webkit-scrollbar-thumb { background: var(--latte); border-radius: 99px; }
-
-  .response-card {
-    background: white;
-    border: 1px solid rgba(196,125,46,0.12);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--text);
-    position: relative;
-  }
-
-  .response-card::before {
-    content: '"';
-    position: absolute;
-    top: 6px; left: 12px;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: var(--latte);
-    line-height: 1;
-  }
-
-  .response-card p { padding-left: 18px; }
-
-  .response-card .ts {
+  /* Responses table */
+  .responses-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .responses-table th {
+    text-align: left;
+    padding: 10px 12px;
     font-size: 0.72rem;
-    color: var(--muted);
-    margin-top: 4px;
-    padding-left: 18px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    border-bottom: 2px solid rgba(196,125,46,0.2);
+  }
+  .responses-table td {
+    padding: 12px;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(196,125,46,0.1);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .responses-table tr:hover td { background: rgba(196,125,46,0.04); }
+
+  .name-cell { font-weight: 500; color: var(--espresso); white-space: nowrap; }
+  .date-cell { color: var(--muted); white-space: nowrap; font-size: 0.8rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    background: rgba(196,125,46,0.1);
+    color: var(--caramel);
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
 
-  /* Empty state */
-  .empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
+  /* Delete button */
+  .delete-btn {
+    background: transparent;
+    border: 1px solid rgba(185,64,64,0.3);
+    color: var(--danger);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s ease;
+    white-space: nowrap;
   }
+  .delete-btn:hover {
+    background: var(--danger-light);
+    border-color: var(--danger);
+  }
+  .delete-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
+  .row-deleted td { opacity: 0.3; text-decoration: line-through; }
+
+  /* Empty */
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
   .empty span { font-size: 2.5rem; display: block; margin-bottom: 12px; }
-
-  /* Loading */
-  #loading {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--muted);
-    display: none;
-  }
-
-  .spinner {
-    width: 36px; height: 36px;
-    border: 3px solid rgba(196,125,46,0.2);
-    border-top-color: var(--caramel);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
-  }
 
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes fadeUp {
@@ -275,9 +265,10 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 640px) {
     .wrap { padding: 40px 16px 60px; }
     .section { padding: 20px 16px; }
+    .responses-table { display: block; overflow-x: auto; }
   }
 </style>
 </head>
@@ -295,7 +286,7 @@
     </div>
     <p id="auth-error">Nieprawidłowe hasło lub błąd serwera.</p>
     <p style="font-size:0.8rem;color:var(--muted);margin-top:8px">
-      Możesz też dodać <code>?key=hasło</code> do URL żeby wejść od razu.
+      Możesz też dodać <code>?key=hasło</code> do URL.
     </p>
   </div>
 
@@ -313,94 +304,102 @@
       <div class="total-badge">Łącznie odpowiedzi: <strong id="total-count">0</strong></div>
     </div>
 
-    <!-- Q1: Metoda parzenia -->
-    <div class="section" id="section-q1">
-      <h2><span class="q-tag">P1</span>Jak teraz parzysz kawę w domu?</h2>
-      <div class="bar-list" id="chart-q1"></div>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('responses')">📋 Lista odpowiedzi</button>
+      <button class="tab" onclick="showTab('charts')">📊 Statystyki</button>
     </div>
 
-    <!-- Q3: Czego chcesz się nauczyć -->
-    <div class="section" id="section-q3">
-      <h2><span class="q-tag">P3</span>Czego chcesz się nauczyć?</h2>
-      <div class="bar-list" id="chart-q3"></div>
+    <!-- Panel: Responses -->
+    <div class="panel active" id="panel-responses">
+      <div class="section" style="padding: 0; overflow: hidden;">
+        <table class="responses-table" id="responses-table">
+          <thead>
+            <tr>
+              <th>Imię</th>
+              <th>Metoda parzenia</th>
+              <th>Chce się nauczyć</th>
+              <th>Frustracja</th>
+              <th>Przyjdzie?</th>
+              <th>Cena</th>
+              <th>Data</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="responses-body"></tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- Q4: Gotowość przyjazdu -->
-    <div class="section" id="section-q4">
-      <h2><span class="q-tag">P4</span>Czy przyszłabyś/przyszedłbyś na warsztaty do domu?</h2>
-      <div class="bar-list" id="chart-q4"></div>
+    <!-- Panel: Charts -->
+    <div class="panel" id="panel-charts">
+      <div class="section">
+        <h2><span class="q-tag">P1</span>Jak teraz parzysz kawę w domu?</h2>
+        <div class="bar-list" id="chart-q1"></div>
+      </div>
+      <div class="section">
+        <h2><span class="q-tag">P3</span>Czego chcesz się nauczyć?</h2>
+        <div class="bar-list" id="chart-q3"></div>
+      </div>
+      <div class="section">
+        <h2><span class="q-tag">P4</span>Czy przyjdziesz na warsztaty do domu?</h2>
+        <div class="bar-list" id="chart-q4"></div>
+      </div>
+      <div class="section">
+        <h2><span class="q-tag">P5</span>Uczciwa cena za 2 godziny?</h2>
+        <div class="bar-list" id="chart-q5"></div>
+      </div>
     </div>
-
-    <!-- Q5: Cena -->
-    <div class="section" id="section-q5">
-      <h2><span class="q-tag">P5</span>Uczciwa cena za 2 godziny warsztatów?</h2>
-      <div class="bar-list" id="chart-q5"></div>
-    </div>
-
-    <!-- Q2: Frustracje (tekst) -->
-    <div class="section" id="section-q2">
-      <h2><span class="q-tag">P2</span>Co najbardziej frustruje Cię w domowej kawie?</h2>
-      <div class="responses-list" id="list-q2"></div>
-    </div>
-
   </div>
+
 </div>
 
 <script>
   const LABELS = {
-    q1: {
-      kapsulki: 'Kapsułki',
-      ekspres_automatyczny: 'Ekspres automatyczny',
-      espresso_reczne: 'Ekspres kolbowy',
-      moka: 'Moka / kawiarka',
-      drip_pour_over: 'Drip / pour over',
-      french_press: 'French press',
-      nie_parze: 'Nie parzę – kupuję gotową'
-    },
-    q3: {
-      podstawy_espresso: 'Podstawy espresso',
-      mleko: 'Spienianie mleka i latte art',
-      ziarna_mielenie: 'Dobór ziaren i mielenie',
-      kalibracja: 'Kalibracja ekspresu',
-      metody_alternatywne: 'Metody alternatywne',
-      degustacja: 'Jak smakować kawę',
-      sprzet: 'Jaki sprzęt kupić'
-    },
-    q4: {
-      tak: 'Tak, czemu nie!',
-      moze: 'Może – zależy od lokalizacji',
-      'wolę_znajomych': 'Wolę u siebie / znajomych',
-      nie: 'Raczej nie'
-    },
-    q5: {
-      gratis: 'Tylko koszt kawy',
-      '50': '~50 zł',
-      '100': '~100 zł',
-      '150': '~150 zł'
-    }
+    q1: { kapsulki:'Kapsułki', ekspres_automatyczny:'Ekspres automatyczny', espresso_reczne:'Ekspres kolbowy', moka:'Moka', drip_pour_over:'Drip / pour over', french_press:'French press', nie_parze:'Nie parzę' },
+    q3: { podstawy_espresso:'Podstawy espresso', mleko:'Mleko i latte art', ziarna_mielenie:'Ziarna i mielenie', kalibracja:'Kalibracja ekspresu', metody_alternatywne:'Metody alternatywne', degustacja:'Degustacja', sprzet:'Jaki sprzęt kupić' },
+    q4: { tak:'Tak!', moze:'Może', 'wolę_znajomych':'Woli u siebie', nie:'Raczej nie' },
+    q5: { gratis:'Tylko kawa', '50':'~50 zł', '100':'~100 zł', '150':'~150 zł' }
   };
 
-  // Check URL for ?key= param on load
+  let currentKey = '';
+
   window.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const key = params.get('key');
     if (key) loadResults(key);
-
     document.getElementById('key-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') loadResults();
     });
   });
 
+  function showTab(name) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && name === 'responses') || (i === 1 && name === 'charts'));
+    });
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`panel-${name}`).classList.add('active');
+
+    // Animate bars when switching to charts
+    if (name === 'charts') {
+      setTimeout(() => {
+        document.querySelectorAll('.bar-fill').forEach(el => {
+          el.style.width = el.dataset.width;
+        });
+      }, 50);
+    }
+  }
+
   async function loadResults(keyParam) {
-    const key = keyParam || document.getElementById('key-input').value.trim();
-    if (!key) return;
+    currentKey = keyParam || document.getElementById('key-input').value.trim();
+    if (!currentKey) return;
 
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
     document.getElementById('auth-error').style.display = 'none';
 
     try {
-      const res = await fetch(`/api/results?key=${encodeURIComponent(key)}`);
+      const res = await fetch(`/api/results?key=${encodeURIComponent(currentKey)}`);
       if (res.status === 401) {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('auth-screen').style.display = 'flex';
@@ -408,10 +407,8 @@
         return;
       }
       if (!res.ok) throw new Error('Server error');
-
       const data = await res.json();
       renderDashboard(data);
-
     } catch (err) {
       document.getElementById('loading').style.display = 'none';
       document.getElementById('auth-screen').style.display = 'flex';
@@ -424,69 +421,100 @@
     document.getElementById('dashboard').style.display = 'block';
     document.getElementById('total-count').textContent = total;
 
-    if (total === 0) {
-      ['q1','q3','q4','q5'].forEach(q => {
-        document.getElementById(`chart-${q}`).innerHTML =
-          '<div class="empty"><span>🫙</span>Brak odpowiedzi jeszcze.</div>';
-      });
-      document.getElementById('list-q2').innerHTML =
-        '<div class="empty"><span>🫙</span>Brak odpowiedzi jeszcze.</div>';
+    renderResponsesTable(responses);
+    renderCharts(responses, total);
+  }
+
+  function renderResponsesTable(responses) {
+    const tbody = document.getElementById('responses-body');
+    if (!responses || responses.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8"><div class="empty"><span>🫙</span>Brak odpowiedzi jeszcze.</div></td></tr>`;
       return;
     }
 
-    // --- Q1, Q4, Q5 (single choice) ---
-    ['q1', 'q4', 'q5'].forEach(q => {
-      const counts = {};
-      responses.forEach(r => {
-        if (r[q]) counts[r[q]] = (counts[r[q]] || 0) + 1;
+    // Sort newest first
+    const sorted = [...responses].sort((a, b) => new Date(b.submittedAt || 0) - new Date(a.submittedAt || 0));
+
+    tbody.innerHTML = sorted.map(r => {
+      const date = r.submittedAt
+        ? new Date(r.submittedAt).toLocaleDateString('pl-PL', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
+        : '—';
+      const q1label = (LABELS.q1[r.q1] || r.q1 || '—');
+      const q3tags = (r.q3 || []).map(v => `<span class="tag">${LABELS.q3[v] || v}</span>`).join('') || '—';
+      const q4label = LABELS.q4[r.q4] || r.q4 || '—';
+      const q5label = LABELS.q5[r.q5] || r.q5 || '—';
+      const frustration = r.q2 ? escHtml(r.q2) : '—';
+      const name = r.name ? escHtml(r.name) : '<em style="color:var(--muted)">Brak</em>';
+      const id = escHtml(r._id || '');
+
+      return `<tr id="row-${id}">
+        <td class="name-cell">${name}</td>
+        <td>${q1label}</td>
+        <td><div class="tags">${q3tags}</div></td>
+        <td style="max-width:200px">${frustration}</td>
+        <td>${q4label}</td>
+        <td>${q5label}</td>
+        <td class="date-cell">${date}</td>
+        <td>${id ? `<button class="delete-btn" onclick="deleteResponse('${id}')">Usuń</button>` : ''}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  async function deleteResponse(id) {
+    if (!confirm('Usunąć tę odpowiedź?')) return;
+
+    const btn = document.querySelector(`#row-${id} .delete-btn`);
+    if (btn) { btn.disabled = true; btn.textContent = '…'; }
+
+    try {
+      const res = await fetch(`/api/delete?key=${encodeURIComponent(currentKey)}&id=${encodeURIComponent(id)}`, {
+        method: 'DELETE'
       });
+      if (!res.ok) throw new Error('Failed');
+
+      const row = document.getElementById(`row-${id}`);
+      if (row) {
+        row.classList.add('row-deleted');
+        setTimeout(() => row.remove(), 800);
+      }
+
+      // Update counter
+      const countEl = document.getElementById('total-count');
+      const current = parseInt(countEl.textContent);
+      if (current > 0) countEl.textContent = current - 1;
+
+    } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = 'Usuń'; }
+      alert('Błąd podczas usuwania. Spróbuj ponownie.');
+    }
+  }
+
+  function renderCharts(responses, total) {
+    if (!responses || total === 0) {
+      ['q1','q3','q4','q5'].forEach(q => {
+        document.getElementById(`chart-${q}`).innerHTML = '<div class="empty"><span>🫙</span>Brak danych.</div>';
+      });
+      return;
+    }
+
+    ['q1','q4','q5'].forEach(q => {
+      const counts = {};
+      responses.forEach(r => { if (r[q]) counts[r[q]] = (counts[r[q]] || 0) + 1; });
       renderBars(document.getElementById(`chart-${q}`), counts, total, LABELS[q]);
     });
 
-    // --- Q3 (multi-choice) ---
     const countsQ3 = {};
-    responses.forEach(r => {
-      (r.q3 || []).forEach(v => {
-        countsQ3[v] = (countsQ3[v] || 0) + 1;
-      });
-    });
+    responses.forEach(r => { (r.q3 || []).forEach(v => { countsQ3[v] = (countsQ3[v] || 0) + 1; }); });
     renderBars(document.getElementById('chart-q3'), countsQ3, total, LABELS.q3);
-
-    // --- Q2 (text) ---
-    const listEl = document.getElementById('list-q2');
-    const textResponses = responses.filter(r => r.q2 && r.q2.trim().length > 0);
-    if (textResponses.length === 0) {
-      listEl.innerHTML = '<div class="empty"><span>🫙</span>Brak odpowiedzi tekstowych.</div>';
-    } else {
-      listEl.innerHTML = textResponses.map(r => {
-        const date = r.submittedAt
-          ? new Date(r.submittedAt).toLocaleDateString('pl-PL', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
-          : '';
-        return `<div class="response-card">
-          <p>${escHtml(r.q2)}</p>
-          ${date ? `<div class="ts">${date}</div>` : ''}
-        </div>`;
-      }).join('');
-    }
-
-    // Animate bars after render
-    requestAnimationFrame(() => {
-      document.querySelectorAll('.bar-fill').forEach(el => {
-        el.style.width = el.dataset.width;
-      });
-    });
   }
 
   function renderBars(container, counts, total, labelMap) {
     if (Object.keys(counts).length === 0) {
-      container.innerHTML = '<div class="empty"><span>🫙</span>Brak odpowiedzi jeszcze.</div>';
+      container.innerHTML = '<div class="empty"><span>🫙</span>Brak danych.</div>';
       return;
     }
-
-    // Sort by count desc
     const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
     const max = sorted[0][1];
-
     container.innerHTML = sorted.map(([key, count]) => {
       const pct = Math.round((count / total) * 100);
       const barWidth = Math.round((count / max) * 100);
@@ -504,11 +532,7 @@
   }
 
   function escHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 </script>
 </body>

@@ -128,6 +128,7 @@
   .question-block:nth-child(3) { animation-delay: 0.3s; }
   .question-block:nth-child(4) { animation-delay: 0.4s; }
   .question-block:nth-child(5) { animation-delay: 0.5s; }
+  .question-block:nth-child(6) { animation-delay: 0.6s; }
 
   .q-number {
     font-size: 0.72rem;
@@ -232,6 +233,25 @@
     box-shadow: 0 0 0 3px rgba(196, 125, 46, 0.1);
   }
   textarea::placeholder { color: #b8a898; }
+
+  input[type="text"] {
+    width: 100%;
+    background: white;
+    border: 1.5px solid rgba(196, 125, 46, 0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  input[type="text"]:focus {
+    border-color: var(--caramel);
+    box-shadow: 0 0 0 3px rgba(196, 125, 46, 0.1);
+  }
+  input[type="text"]::placeholder { color: #b8a898; }
 
   /* Price grid */
   .price-grid {
@@ -342,6 +362,13 @@
   <div class="divider"><span>✦</span></div>
 
   <form id="survey">
+    <!-- IMIĘ -->
+    <div class="question-block" style="animation-delay:0s">
+      <div class="q-number">Na początek</div>
+      <label class="q-label" for="name-input">Jak masz na imię?</label>
+      <input type="text" id="name-input" name="name" placeholder="Np. Ania, Marek…" autocomplete="given-name">
+    </div>
+
 
     <!-- Q1 -->
     <div class="question-block">
@@ -446,6 +473,7 @@
     btn.querySelector('span').textContent = 'Wysyłam…';
 
     const data = {};
+    data.name = document.getElementById('name-input').value.trim() || null;
     data.q1 = (document.querySelector('input[name="q1"]:checked') || {}).value || null;
     data.q2 = document.querySelector('textarea[name="q2"]').value.trim() || null;
     const checked = [...document.querySelectorAll('input[name="q3"]:checked')].map(i => i.value);
