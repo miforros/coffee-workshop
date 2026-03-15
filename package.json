@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Ankieta i dashboard dla warsztatów kawowych",
   "dependencies": {
-    "@vercel/kv": "^1.0.0"
+    "ioredis": "^5.3.2"
   }
 }
