@@ -3,466 +3,499 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Warsztaty Kawowe – Ankieta</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Jungle — Warsztaty Kawowe</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #f5f0e8;
-    --espresso: #1a0f0a;
-    --brown: #3d1f0f;
-    --caramel: #c47d2e;
-    --latte: #d4a96a;
-    --foam: #faf6ef;
-    --text: #2c1810;
-    --muted: #7a6355;
+    --bg:        #0f1410;
+    --bg-card:   #162014;
+    --bg-input:  #0c0f0d;
+    --border:    #2a3d2a;
+    --gold:      #c9a84c;
+    --orange:    #d4540a;
+    --orange-h:  #e8620f;
+    --text:      #f0ede0;
+    --muted:     #7a8a7a;
+    --subtle:    #3a4a3a;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background-color: var(--cream);
+    background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
     min-height: 100vh;
-    overflow-x: hidden;
   }
 
-  /* Grain texture overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
   }
 
-  .page-wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 60px 24px 80px;
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-transform: uppercase;
   }
 
-  /* Header */
-  .header {
-    text-align: center;
-    margin-bottom: 56px;
-    animation: fadeUp 0.8s ease both;
+  /* HERO */
+  .hero {
+    padding: 80px 40px 72px;
+    max-width: 700px;
   }
 
-  .bean-icon {
-    font-size: 2.4rem;
-    display: block;
-    margin-bottom: 20px;
-    animation: roast 3s ease-in-out infinite;
-  }
-
-  @keyframes roast {
-    0%, 100% { transform: rotate(-8deg); }
-    50% { transform: rotate(8deg); }
-  }
-
-  .header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 6vw, 3rem);
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
     font-weight: 700;
-    line-height: 1.15;
-    color: var(--espresso);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
     margin-bottom: 16px;
   }
 
-  .header h1 em {
-    font-style: italic;
-    color: var(--caramel);
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 8vw, 88px);
+    line-height: 0.92;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    margin-bottom: 20px;
   }
 
-  .header p {
-    font-size: 1rem;
+  .hero h1 span { color: var(--gold); }
+
+  .hero p {
+    font-size: 15px;
     line-height: 1.7;
     color: var(--muted);
     max-width: 480px;
+  }
+
+  /* FORM SECTION */
+  .form-section {
+    background: var(--bg-card);
+    padding: 60px 40px 80px;
+  }
+
+  .form-wrap {
+    max-width: 680px;
     margin: 0 auto;
   }
 
-  /* Divider */
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 40px 0;
-  }
-  .divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--latte), transparent);
-  }
-  .divider span {
-    font-size: 1.1rem;
-    color: var(--caramel);
-  }
-
-  /* Form */
-  form { display: flex; flex-direction: column; gap: 36px; }
-
-  .question-block {
-    background: var(--foam);
-    border: 1px solid rgba(196, 125, 46, 0.15);
-    border-radius: 16px;
-    padding: 28px 28px 24px;
-    animation: fadeUp 0.6s ease both;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-  }
-
-  .question-block:hover {
-    box-shadow: 0 8px 32px rgba(61, 31, 15, 0.08);
-    border-color: rgba(196, 125, 46, 0.3);
-  }
-
-  .question-block:nth-child(1) { animation-delay: 0.1s; }
-  .question-block:nth-child(2) { animation-delay: 0.2s; }
-  .question-block:nth-child(3) { animation-delay: 0.3s; }
-  .question-block:nth-child(4) { animation-delay: 0.4s; }
-  .question-block:nth-child(5) { animation-delay: 0.5s; }
-  .question-block:nth-child(6) { animation-delay: 0.6s; }
-
-  .q-number {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--caramel);
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 40px);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 40px;
+    line-height: 1;
+  }
+
+  form { display: flex; flex-direction: column; gap: 20px; }
+
+  /* QUESTION BLOCK */
+  .q-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    transition: border-color 0.2s ease;
+  }
+
+  .q-block:focus-within {
+    border-color: var(--gold);
+  }
+
+  .q-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
     margin-bottom: 8px;
   }
 
-  label.q-label {
+  .q-label {
     display: block;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    font-weight: 400;
-    color: var(--espresso);
-    margin-bottom: 20px;
-    line-height: 1.5;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 18px;
   }
 
-  /* Radio & Checkbox options */
-  .options { display: flex; flex-direction: column; gap: 10px; }
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 6px; }
 
   .option {
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 10px 12px;
+    border-radius: 4px;
     cursor: pointer;
-    padding: 10px 14px;
-    border-radius: 10px;
-    transition: background 0.2s ease;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
   }
-  .option:hover { background: rgba(196, 125, 46, 0.07); }
+
+  .option:hover {
+    background: rgba(201,168,76,0.06);
+    border-color: rgba(201,168,76,0.2);
+  }
 
   .option input[type="radio"],
   .option input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--latte);
+    width: 16px; height: 16px;
+    border: 1px solid var(--subtle);
     border-radius: 50%;
     flex-shrink: 0;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     position: relative;
   }
 
-  .option input[type="checkbox"] { border-radius: 6px; }
+  .option input[type="checkbox"] { border-radius: 3px; }
 
-  .option input[type="radio"]:checked,
-  .option input[type="checkbox"]:checked {
-    background: var(--caramel);
-    border-color: var(--caramel);
+  .option input:checked {
+    background: var(--gold);
+    border-color: var(--gold);
   }
 
   .option input[type="radio"]:checked::after {
     content: '';
     position: absolute;
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 7px; height: 7px;
+    transform: translate(-50%,-50%);
+    width: 6px; height: 6px;
     border-radius: 50%;
-    background: white;
+    background: var(--bg);
   }
 
   .option input[type="checkbox"]:checked::after {
     content: '✓';
     position: absolute;
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 12px;
+    transform: translate(-50%,-50%);
+    color: var(--bg);
+    font-size: 11px;
     font-weight: 700;
     line-height: 1;
   }
 
   .option span {
-    font-size: 0.95rem;
-    color: var(--text);
-    line-height: 1.4;
-  }
-
-  /* Textarea */
-  textarea {
-    width: 100%;
-    min-height: 100px;
-    background: white;
-    border: 1.5px solid rgba(196, 125, 46, 0.2);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: var(--text);
-    resize: vertical;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    outline: none;
-  }
-  textarea:focus {
-    border-color: var(--caramel);
-    box-shadow: 0 0 0 3px rgba(196, 125, 46, 0.1);
-  }
-  textarea::placeholder { color: #b8a898; }
-
-  input[type="text"] {
-    width: 100%;
-    background: white;
-    border: 1.5px solid rgba(196, 125, 46, 0.2);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-  input[type="text"]:focus {
-    border-color: var(--caramel);
-    box-shadow: 0 0 0 3px rgba(196, 125, 46, 0.1);
-  }
-  input[type="text"]::placeholder { color: #b8a898; }
-
-  /* Price grid */
-  .price-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .price-option {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px 10px;
-    border: 1.5px solid rgba(196, 125, 46, 0.2);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: white;
-    text-align: center;
-  }
-  .price-option:hover { border-color: var(--caramel); background: rgba(196, 125, 46, 0.04); }
-  .price-option input { display: none; }
-  .price-option.selected {
-    border-color: var(--caramel);
-    background: rgba(196, 125, 46, 0.08);
-  }
-  .price-option span { font-size: 0.95rem; color: var(--text); font-weight: 400; }
-
-  /* Submit */
-  .submit-wrap {
-    text-align: center;
-    animation: fadeUp 0.6s ease 0.6s both;
-  }
-
-  button[type="submit"] {
-    background: var(--espresso);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 50px;
-    padding: 18px 48px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  button[type="submit"]::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--caramel);
-    transform: translateX(-100%);
-    transition: transform 0.4s ease;
-    z-index: 0;
-  }
-  button[type="submit"]:hover::before { transform: translateX(0); }
-  button[type="submit"] span { position: relative; z-index: 1; }
-
-  .submit-note {
-    margin-top: 14px;
-    font-size: 0.82rem;
+    font-size: 14px;
     color: var(--muted);
   }
 
-  /* Thank you state */
+  /* TEXT INPUT */
+  input[type="text"],
+  textarea {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: var(--gold);
+  }
+
+  input[type="text"]::placeholder,
+  textarea::placeholder {
+    color: var(--subtle);
+  }
+
+  textarea { min-height: 96px; resize: vertical; }
+
+  /* PRICE GRID */
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .price-btn {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .price-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .price-btn.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+  }
+
+  /* SUBMIT */
+  .submit-wrap { margin-top: 8px; }
+
+  button[type="submit"] {
+    width: 100%;
+    background: var(--orange);
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    padding: 18px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  button[type="submit"]:hover { background: var(--orange-h); }
+  button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .submit-note {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--subtle);
+    letter-spacing: 0.05em;
+  }
+
+  /* THANK YOU */
   .thankyou {
     display: none;
     text-align: center;
-    padding: 60px 20px;
-    animation: fadeUp 0.6s ease both;
+    padding: 80px 20px;
   }
-  .thankyou .big-icon { font-size: 3.5rem; margin-bottom: 24px; display: block; }
+
+  .thankyou-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 24px;
+  }
+
   .thankyou h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--espresso);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text);
     margin-bottom: 12px;
   }
-  .thankyou p { color: var(--muted); line-height: 1.7; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .thankyou p { color: var(--muted); font-size: 15px; line-height: 1.7; }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 40px;
   }
 
-  @media (max-width: 480px) {
-    .page-wrap { padding: 40px 16px 60px; }
-    .question-block { padding: 20px 18px; }
+  .footer-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .footer-copy {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--subtle);
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 20px; }
+    .hero { padding: 48px 20px 48px; }
+    .form-section { padding: 40px 20px 60px; }
+    footer { padding: 32px 20px; }
     .price-grid { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
 <body>
-<div class="page-wrap">
 
-  <div class="header">
-    <span class="bean-icon">☕</span>
-    <h1>Naucz się parzyć<br><em>naprawdę dobrą kawę</em></h1>
-    <p>Planuję małe, kameralne warsztaty kawowe u mnie w domu. Zanim cokolwiek zaplanujemy — powiedz mi, czego Ty chcesz się nauczyć.</p>
-  </div>
+<nav>
+  <div class="nav-logo">Jungle</div>
+</nav>
 
-  <div class="divider"><span>✦</span></div>
-
-  <form id="survey">
-    <!-- IMIĘ -->
-    <div class="question-block" style="animation-delay:0s">
-      <div class="q-number">Na początek</div>
-      <label class="q-label" for="name-input">Jak masz na imię?</label>
-      <input type="text" id="name-input" name="name" placeholder="Np. Ania, Marek…" autocomplete="given-name">
-    </div>
-
-
-    <!-- Q1 -->
-    <div class="question-block">
-      <div class="q-number">Pytanie 1 z 5</div>
-      <label class="q-label">Jak teraz parzysz kawę w domu?</label>
-      <div class="options">
-        <label class="option"><input type="radio" name="q1" value="kapsulki"><span>Kapsułki (Nespresso, Dolce Gusto itp.)</span></label>
-        <label class="option"><input type="radio" name="q1" value="ekspres_automatyczny"><span>Ekspres automatyczny (ziarnista)</span></label>
-        <label class="option"><input type="radio" name="q1" value="espresso_reczne"><span>Ekspres kolbowy (ręczne espresso)</span></label>
-        <label class="option"><input type="radio" name="q1" value="moka"><span>Moka / kawiarka</span></label>
-        <label class="option"><input type="radio" name="q1" value="drip_pour_over"><span>Drip / pour over / chemex</span></label>
-        <label class="option"><input type="radio" name="q1" value="french_press"><span>French press</span></label>
-        <label class="option"><input type="radio" name="q1" value="nie_parze"><span>Właściwie nie parzę — kupuję gotową</span></label>
-      </div>
-    </div>
-
-    <!-- Q2 -->
-    <div class="question-block">
-      <div class="q-number">Pytanie 2 z 5</div>
-      <label class="q-label">Co najbardziej Cię frustruje w domowej kawie?</label>
-      <textarea name="q2" placeholder="Np. „zawsze wychodzi gorzka", „nie wiem jak ustawić ekspres", „nie rozumiem co kupować"…"></textarea>
-    </div>
-
-    <!-- Q3 -->
-    <div class="question-block">
-      <div class="q-number">Pytanie 3 z 5</div>
-      <label class="q-label">Czego chcesz się nauczyć? (możesz zaznaczyć kilka)</label>
-      <div class="options">
-        <label class="option"><input type="checkbox" name="q3" value="podstawy_espresso"><span>Podstawy parzenia espresso</span></label>
-        <label class="option"><input type="checkbox" name="q3" value="mleko"><span>Spienianie mleka i latte art</span></label>
-        <label class="option"><input type="checkbox" name="q3" value="ziarna_mielenie"><span>Dobór ziaren i mielenie</span></label>
-        <label class="option"><input type="checkbox" name="q3" value="kalibracja"><span>Jak „ustawić" (skalibrować) ekspres</span></label>
-        <label class="option"><input type="checkbox" name="q3" value="metody_alternatywne"><span>Metody alternatywne (drip, aeropress, chemex)</span></label>
-        <label class="option"><input type="checkbox" name="q3" value="degustacja"><span>Jak smakować i oceniać kawę</span></label>
-        <label class="option"><input type="checkbox" name="q3" value="sprzet"><span>Jaki sprzęt warto kupić</span></label>
-      </div>
-    </div>
-
-    <!-- Q4 -->
-    <div class="question-block">
-      <div class="q-number">Pytanie 4 z 5</div>
-      <label class="q-label">Czy przyszłabyś / przyszedłbyś na warsztaty do kogoś do domu?</label>
-      <div class="options">
-        <label class="option"><input type="radio" name="q4" value="tak"><span>Tak, czemu nie!</span></label>
-        <label class="option"><input type="radio" name="q4" value="moze"><span>Może — zależy od lokalizacji</span></label>
-        <label class="option"><input type="radio" name="q4" value="wolę_znajomych"><span>Wolę, żeby to było u mnie albo u znajomych</span></label>
-        <label class="option"><input type="radio" name="q4" value="nie"><span>Raczej nie</span></label>
-      </div>
-    </div>
-
-    <!-- Q5 -->
-    <div class="question-block">
-      <div class="q-number">Pytanie 5 z 5</div>
-      <label class="q-label">Co wydaje Ci się uczciwą ceną za 2 godziny warsztatów (w cenie kawa)?</label>
-      <div class="price-grid" id="priceGrid">
-        <div class="price-option" data-value="gratis" onclick="selectPrice(this)">
-          <input type="radio" name="q5" value="gratis">
-          <span>Tylko koszt kawy</span>
-        </div>
-        <div class="price-option" data-value="50" onclick="selectPrice(this)">
-          <input type="radio" name="q5" value="50">
-          <span>~50 zł</span>
-        </div>
-        <div class="price-option" data-value="100" onclick="selectPrice(this)">
-          <input type="radio" name="q5" value="100">
-          <span>~100 zł</span>
-        </div>
-        <div class="price-option" data-value="150" onclick="selectPrice(this)">
-          <input type="radio" name="q5" value="150">
-          <span>~150 zł</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="submit-wrap">
-      <button type="submit"><span>Wyślij odpowiedzi ☕</span></button>
-      <p class="submit-note">Dziękuję za Twój czas — każda odpowiedź naprawdę pomaga!</p>
-    </div>
-
-  </form>
-
-  <div class="thankyou" id="thankyou">
-    <span class="big-icon">🫶</span>
-    <h2>Dziękuję!</h2>
-    <p>Twoje odpowiedzi są dla mnie bardzo cenne.<br>Wkrótce dam znać, kiedy i jak będą wyglądać warsztaty. Do zobaczenia przy kawie!</p>
-  </div>
-
+<div class="hero">
+  <div class="hero-eyebrow">Warsztaty Kawowe — Łódź</div>
+  <h1>Naucz się<br>pić kawę<br><span>jak należy.</span></h1>
+  <p>Kameralne warsztaty w moim domu. Zanim cokolwiek zaplanujemy — powiedz czego szukasz.</p>
 </div>
+
+<div class="form-section">
+  <div class="form-wrap">
+    <div class="section-label">Ankieta</div>
+    <div class="section-title">Co chcesz<br>osiągnąć?</div>
+
+    <form id="survey">
+
+      <!-- IMIĘ -->
+      <div class="q-block">
+        <div class="q-tag">Na początek</div>
+        <label class="q-label" for="name-input">Jak masz na imię?</label>
+        <input type="text" id="name-input" name="name" placeholder="Twoje imię..." autocomplete="given-name">
+      </div>
+
+      <!-- Q1 -->
+      <div class="q-block">
+        <div class="q-tag">Pytanie 1 z 5</div>
+        <label class="q-label">Jak teraz parzysz kawę w domu?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q1" value="kapsulki"><span>Kapsułki (Nespresso, Dolce Gusto itp.)</span></label>
+          <label class="option"><input type="radio" name="q1" value="ekspres_automatyczny"><span>Ekspres automatyczny (ziarnista)</span></label>
+          <label class="option"><input type="radio" name="q1" value="espresso_reczne"><span>Ekspres kolbowy (ręczne espresso)</span></label>
+          <label class="option"><input type="radio" name="q1" value="moka"><span>Moka / kawiarka</span></label>
+          <label class="option"><input type="radio" name="q1" value="drip_pour_over"><span>Drip / pour over / chemex</span></label>
+          <label class="option"><input type="radio" name="q1" value="french_press"><span>French press</span></label>
+          <label class="option"><input type="radio" name="q1" value="nie_parze"><span>Właściwie nie parzę — kupuję gotową</span></label>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="q-block">
+        <div class="q-tag">Pytanie 2 z 5</div>
+        <label class="q-label">Co najbardziej Cię frustruje w domowej kawie?</label>
+        <textarea name="q2" placeholder="Napisz szczerze..."></textarea>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q-block">
+        <div class="q-tag">Pytanie 3 z 5</div>
+        <label class="q-label">Czego chcesz się nauczyć? (możesz zaznaczyć kilka)</label>
+        <div class="options">
+          <label class="option"><input type="checkbox" name="q3" value="podstawy_espresso"><span>Podstawy parzenia espresso</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="mleko"><span>Spienianie mleka i latte art</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="ziarna_mielenie"><span>Dobór ziaren i mielenie</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="kalibracja"><span>Jak skalibrować ekspres</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="metody_alternatywne"><span>Metody alternatywne (drip, aeropress, chemex)</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="degustacja"><span>Jak smakować i oceniać kawę</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="sprzet"><span>Jaki sprzęt warto kupić</span></label>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="q-block">
+        <div class="q-tag">Pytanie 4 z 5</div>
+        <label class="q-label">Czy przyszłabyś / przyszedłbyś na warsztaty do kogoś do domu?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q4" value="tak"><span>Tak, czemu nie!</span></label>
+          <label class="option"><input type="radio" name="q4" value="moze"><span>Może — zależy od lokalizacji</span></label>
+          <label class="option"><input type="radio" name="q4" value="wole_znajomych"><span>Wolę, żeby to było u mnie albo u znajomych</span></label>
+          <label class="option"><input type="radio" name="q4" value="nie"><span>Raczej nie</span></label>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="q-block">
+        <div class="q-tag">Pytanie 5 z 5</div>
+        <label class="q-label">Co wydaje Ci się uczciwą ceną za 2 godziny warsztatów?</label>
+        <div class="price-grid" id="priceGrid">
+          <div class="price-btn" data-value="gratis" onclick="selectPrice(this)">Tylko koszt kawy</div>
+          <div class="price-btn" data-value="50" onclick="selectPrice(this)">~50 zł</div>
+          <div class="price-btn" data-value="100" onclick="selectPrice(this)">~100 zł</div>
+          <div class="price-btn" data-value="150" onclick="selectPrice(this)">~150 zł</div>
+        </div>
+        <input type="hidden" name="q5" id="q5-value">
+      </div>
+
+      <div class="submit-wrap">
+        <button type="submit"><span>Wyślij odpowiedzi</span></button>
+        <p class="submit-note">Każda odpowiedź naprawdę pomaga.</p>
+      </div>
+
+    </form>
+
+    <div class="thankyou" id="thankyou">
+      <span class="thankyou-icon">☕</span>
+      <h2>Dzięki.</h2>
+      <p>Twoje odpowiedzi są dla mnie bardzo cenne.<br>Wkrótce dam znać jak będą wyglądać warsztaty.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Jungle</div>
+    <div class="footer-copy">© 2026 Jungle Coffee & Workshops</div>
+  </div>
+</footer>
 
 <script>
   function selectPrice(el) {
-    document.querySelectorAll('.price-option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.price-btn').forEach(b => b.classList.remove('selected'));
     el.classList.add('selected');
-    el.querySelector('input').checked = true;
+    document.getElementById('q5-value').value = el.dataset.value;
   }
 
   document.getElementById('survey').addEventListener('submit', async function(e) {
@@ -470,7 +503,7 @@
 
     const btn = document.querySelector('button[type="submit"]');
     btn.disabled = true;
-    btn.querySelector('span').textContent = 'Wysyłam…';
+    btn.querySelector('span').textContent = 'Wysyłam...';
 
     const data = {};
     data.name = document.getElementById('name-input').value.trim() || null;
@@ -479,7 +512,7 @@
     const checked = [...document.querySelectorAll('input[name="q3"]:checked')].map(i => i.value);
     data.q3 = checked.length ? checked : [];
     data.q4 = (document.querySelector('input[name="q4"]:checked') || {}).value || null;
-    data.q5 = (document.querySelector('input[name="q5"]:checked') || {}).value || null;
+    data.q5 = document.getElementById('q5-value').value || null;
     data.submittedAt = new Date().toISOString();
 
     try {
@@ -491,12 +524,10 @@
       if (!res.ok) throw new Error('Błąd serwera');
     } catch (err) {
       console.error(err);
-      // Show thank you anyway — don't punish the user for backend issues
     }
 
     document.getElementById('survey').style.display = 'none';
-    const ty = document.getElementById('thankyou');
-    ty.style.display = 'block';
+    document.getElementById('thankyou').style.display = 'block';
   });
 </script>
 

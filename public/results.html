@@ -3,350 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wyniki Ankiety – Warsztaty Kawowe</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Jungle — Wyniki Ankiety</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #f5f0e8;
-    --espresso: #1a0f0a;
-    --caramel: #c47d2e;
-    --latte: #d4a96a;
-    --foam: #faf6ef;
-    --text: #2c1810;
-    --muted: #7a6355;
-    --danger: #b94040;
-    --danger-light: rgba(185,64,64,0.08);
+    --bg:        #0f1410;
+    --bg-card:   #162014;
+    --bg-input:  #0c0f0d;
+    --border:    #2a3d2a;
+    --gold:      #c9a84c;
+    --orange:    #d4540a;
+    --orange-h:  #e8620f;
+    --text:      #f0ede0;
+    --muted:     #7a8a7a;
+    --subtle:    #3a4a3a;
+    --danger:    #b94040;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: var(--cream);
+    background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
     min-height: 100vh;
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-transform: uppercase;
   }
 
   .wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
-    padding: 60px 24px 80px;
+    padding: 48px 40px 80px;
   }
 
-  /* Auth */
+  /* AUTH */
   #auth-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 70vh;
+    min-height: 60vh;
     text-align: center;
-    gap: 24px;
+    gap: 20px;
   }
-  #auth-screen h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--espresso); }
-  #auth-screen p { color: var(--muted); }
-  .auth-input-row { display: flex; gap: 10px; align-items: center; }
+
+  #auth-screen h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  #auth-screen p { color: var(--muted); font-size: 14px; }
+
+  .auth-row { display: flex; gap: 8px; }
+
   #key-input {
-    padding: 12px 18px;
-    border: 1.5px solid var(--latte);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    background: white;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 11px 16px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
     color: var(--text);
     outline: none;
     width: 220px;
+    transition: border-color 0.2s;
   }
-  #key-input:focus { border-color: var(--caramel); }
-  #auth-error { color: var(--danger); font-size: 0.9rem; display: none; }
+  #key-input:focus { border-color: var(--gold); }
 
   .btn {
-    background: var(--espresso);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    background: var(--orange);
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     border: none;
-    border-radius: 50px;
-    padding: 13px 28px;
+    border-radius: 4px;
+    padding: 11px 24px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background 0.2s;
   }
-  .btn:hover { background: var(--caramel); }
+  .btn:hover { background: var(--orange-h); }
 
-  /* Loading */
-  #loading { text-align: center; padding: 80px 20px; color: var(--muted); display: none; }
+  #auth-error { color: var(--danger); font-size: 13px; display: none; }
+
+  /* LOADING */
+  #loading { display: none; text-align: center; padding: 80px; color: var(--muted); }
   .spinner {
-    width: 36px; height: 36px;
-    border: 3px solid rgba(196,125,46,0.2);
-    border-top-color: var(--caramel);
+    width: 32px; height: 32px;
+    border: 2px solid var(--subtle);
+    border-top-color: var(--gold);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: 0 auto 16px;
   }
 
-  /* Dashboard */
+  /* DASHBOARD */
   #dashboard { display: none; }
 
-  .dash-header { margin-bottom: 40px; animation: fadeUp 0.6s ease both; }
-  .dash-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    color: var(--espresso);
+  .dash-header {
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dash-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
     margin-bottom: 8px;
   }
-  .dash-header p { color: var(--muted); }
+
+  .dash-header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
   .total-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--espresso);
-    color: var(--cream);
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    margin-top: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
-  .total-badge strong { font-size: 1.3rem; }
+  .total-badge strong { color: var(--gold); font-size: 18px; }
 
-  /* Tab navigation */
+  /* TABS */
   .tabs {
     display: flex;
-    gap: 4px;
+    gap: 2px;
     margin-bottom: 32px;
-    background: var(--foam);
-    border: 1px solid rgba(196,125,46,0.15);
-    border-radius: 12px;
-    padding: 6px;
-    animation: fadeUp 0.5s ease 0.1s both;
-  }
-  .tab {
-    flex: 1;
-    text-align: center;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: var(--muted);
-    transition: all 0.2s ease;
-    border: none;
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .tab:hover { color: var(--text); }
-  .tab.active {
-    background: var(--espresso);
-    color: var(--cream);
-    font-weight: 500;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px;
   }
 
-  /* Panels */
+  .tab {
+    flex: 1;
+    padding: 9px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: none;
+    background: transparent;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--orange); color: var(--text); }
+
   .panel { display: none; }
   .panel.active { display: block; }
 
-  /* Section (charts) */
+  /* SECTION */
   .section {
-    background: var(--foam);
-    border: 1px solid rgba(196,125,46,0.15);
-    border-radius: 16px;
-    padding: 28px;
-    margin-bottom: 24px;
-    animation: fadeUp 0.5s ease both;
-  }
-  .section h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--espresso);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
     margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(196,125,46,0.15);
-  }
-  .q-tag {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--caramel);
-    margin-right: 8px;
   }
 
-  /* Bars */
-  .bar-list { display: flex; flex-direction: column; gap: 12px; }
-  .bar-item { display: flex; flex-direction: column; gap: 4px; }
-  .bar-label-row { display: flex; justify-content: space-between; font-size: 0.88rem; }
-  .bar-count { font-size: 0.8rem; color: var(--muted); }
-  .bar-track { height: 10px; background: rgba(196,125,46,0.12); border-radius: 99px; overflow: hidden; }
+  .section h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* BARS */
+  .bar-list { display: flex; flex-direction: column; gap: 10px; }
+  .bar-item { display: flex; flex-direction: column; gap: 5px; }
+  .bar-label-row { display: flex; justify-content: space-between; font-size: 13px; }
+  .bar-count { font-size: 12px; color: var(--muted); font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.05em; }
+  .bar-track { height: 6px; background: var(--subtle); border-radius: 99px; overflow: hidden; }
   .bar-fill {
     height: 100%;
-    background: linear-gradient(to right, var(--caramel), var(--latte));
+    background: var(--gold);
     border-radius: 99px;
-    transition: width 1s cubic-bezier(0.16,1,0.3,1);
+    transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
     width: 0;
   }
 
-  /* Responses table */
-  .responses-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  /* TABLE */
+  .table-wrap { overflow-x: auto; border-radius: 8px; }
+
+  .responses-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 700px;
+  }
+
   .responses-table th {
     text-align: left;
-    padding: 10px 12px;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--caramel);
-    border-bottom: 2px solid rgba(196,125,46,0.2);
-  }
-  .responses-table td {
-    padding: 12px;
-    vertical-align: top;
-    border-bottom: 1px solid rgba(196,125,46,0.1);
-    color: var(--text);
-    line-height: 1.5;
-  }
-  .responses-table tr:hover td { background: rgba(196,125,46,0.04); }
-
-  .name-cell { font-weight: 500; color: var(--espresso); white-space: nowrap; }
-  .date-cell { color: var(--muted); white-space: nowrap; font-size: 0.8rem; }
-  .tags { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag {
-    background: rgba(196,125,46,0.1);
-    color: var(--caramel);
-    padding: 2px 8px;
-    border-radius: 99px;
-    font-size: 0.75rem;
+    color: var(--gold);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
     white-space: nowrap;
   }
 
-  /* Delete button */
+  .responses-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .responses-table tr:last-child td { border-bottom: none; }
+  .responses-table tr:hover td { background: rgba(201,168,76,0.03); }
+
+  .name-cell { color: var(--text); font-weight: 500; white-space: nowrap; }
+  .date-cell { color: var(--subtle); white-space: nowrap; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 0.06em; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* DELETE */
   .delete-btn {
     background: transparent;
     border: 1px solid rgba(185,64,64,0.3);
     color: var(--danger);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 0.75rem;
+    border-radius: 3px;
+    padding: 3px 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     white-space: nowrap;
   }
-  .delete-btn:hover {
-    background: var(--danger-light);
-    border-color: var(--danger);
-  }
-  .delete-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .delete-btn:hover { background: rgba(185,64,64,0.1); border-color: var(--danger); }
+  .delete-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .row-deleted td { opacity: 0.25; text-decoration: line-through; }
 
-  .row-deleted td { opacity: 0.3; text-decoration: line-through; }
-
-  /* Empty */
-  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
-  .empty span { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+  /* EMPTY */
+  .empty { text-align: center; padding: 48px 20px; color: var(--subtle); }
+  .empty-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
 
   @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 
-  @media (max-width: 640px) {
-    .wrap { padding: 40px 16px 60px; }
-    .section { padding: 20px 16px; }
-    .responses-table { display: block; overflow-x: auto; }
+  @media (max-width: 600px) {
+    nav { padding: 0 20px; }
+    .wrap { padding: 32px 20px 60px; }
   }
 </style>
 </head>
 <body>
+
+<nav>
+  <div class="nav-logo">Jungle</div>
+</nav>
+
 <div class="wrap">
 
-  <!-- Auth -->
+  <!-- AUTH -->
   <div id="auth-screen">
-    <div style="font-size:2.5rem">☕</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--gold);letter-spacing:0.05em;">JUNGLE</div>
     <h1>Wyniki Ankiety</h1>
     <p>Wpisz hasło żeby zobaczyć odpowiedzi.</p>
-    <div class="auth-input-row">
-      <input type="password" id="key-input" placeholder="Hasło…" autofocus>
-      <button class="btn" onclick="loadResults()">Pokaż</button>
+    <div class="auth-row">
+      <input type="password" id="key-input" placeholder="Hasło...">
+      <button class="btn" onclick="loadResults()">Wejdź</button>
     </div>
-    <p id="auth-error">Nieprawidłowe hasło lub błąd serwera.</p>
-    <p style="font-size:0.8rem;color:var(--muted);margin-top:8px">
-      Możesz też dodać <code>?key=hasło</code> do URL.
-    </p>
+    <p id="auth-error">Nieprawidłowe hasło.</p>
+    <p style="font-size:12px;color:var(--subtle)">Możesz też dodać <code style="color:var(--gold)">?key=hasło</code> do URL.</p>
   </div>
 
-  <!-- Loading -->
+  <!-- LOADING -->
   <div id="loading">
     <div class="spinner"></div>
-    <p>Ładuję dane…</p>
+    <p>Ładuję dane...</p>
   </div>
 
-  <!-- Dashboard -->
+  <!-- DASHBOARD -->
   <div id="dashboard">
     <div class="dash-header">
-      <h1>☕ Wyniki ankiety</h1>
-      <p>Warsztaty kawowe – podsumowanie odpowiedzi</p>
-      <div class="total-badge">Łącznie odpowiedzi: <strong id="total-count">0</strong></div>
+      <div class="dash-eyebrow">Panel — Warsztaty Kawowe</div>
+      <h1>Wyniki Ankiety</h1>
+      <div class="total-badge">Odpowiedzi: <strong id="total-count">0</strong></div>
     </div>
 
-    <!-- Tabs -->
     <div class="tabs">
-      <button class="tab active" onclick="showTab('responses')">📋 Lista odpowiedzi</button>
-      <button class="tab" onclick="showTab('charts')">📊 Statystyki</button>
+      <button class="tab active" onclick="showTab('responses')">Lista odpowiedzi</button>
+      <button class="tab" onclick="showTab('charts')">Statystyki</button>
     </div>
 
-    <!-- Panel: Responses -->
+    <!-- RESPONSES -->
     <div class="panel active" id="panel-responses">
-      <div class="section" style="padding: 0; overflow: hidden;">
-        <table class="responses-table" id="responses-table">
-          <thead>
-            <tr>
-              <th>Imię</th>
-              <th>Metoda parzenia</th>
-              <th>Chce się nauczyć</th>
-              <th>Frustracja</th>
-              <th>Przyjdzie?</th>
-              <th>Cena</th>
-              <th>Data</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="responses-body"></tbody>
-        </table>
+      <div class="section" style="padding:0;overflow:hidden;">
+        <div class="table-wrap">
+          <table class="responses-table">
+            <thead>
+              <tr>
+                <th>Imię</th>
+                <th>Metoda parzenia</th>
+                <th>Chce się nauczyć</th>
+                <th>Frustracja</th>
+                <th>Przyjdzie?</th>
+                <th>Cena</th>
+                <th>Data</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="responses-body"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <!-- Panel: Charts -->
+    <!-- CHARTS -->
     <div class="panel" id="panel-charts">
       <div class="section">
-        <h2><span class="q-tag">P1</span>Jak teraz parzysz kawę w domu?</h2>
+        <h2>P1 — Jak teraz parzysz kawę w domu?</h2>
         <div class="bar-list" id="chart-q1"></div>
       </div>
       <div class="section">
-        <h2><span class="q-tag">P3</span>Czego chcesz się nauczyć?</h2>
+        <h2>P3 — Czego chcesz się nauczyć?</h2>
         <div class="bar-list" id="chart-q3"></div>
       </div>
       <div class="section">
-        <h2><span class="q-tag">P4</span>Czy przyjdziesz na warsztaty do domu?</h2>
+        <h2>P4 — Czy przyjdziesz na warsztaty?</h2>
         <div class="bar-list" id="chart-q4"></div>
       </div>
       <div class="section">
-        <h2><span class="q-tag">P5</span>Uczciwa cena za 2 godziny?</h2>
+        <h2>P5 — Uczciwa cena za 2 godziny?</h2>
         <div class="bar-list" id="chart-q5"></div>
       </div>
     </div>
@@ -357,183 +409,118 @@
 <script>
   const LABELS = {
     q1: { kapsulki:'Kapsułki', ekspres_automatyczny:'Ekspres automatyczny', espresso_reczne:'Ekspres kolbowy', moka:'Moka', drip_pour_over:'Drip / pour over', french_press:'French press', nie_parze:'Nie parzę' },
-    q3: { podstawy_espresso:'Podstawy espresso', mleko:'Mleko i latte art', ziarna_mielenie:'Ziarna i mielenie', kalibracja:'Kalibracja ekspresu', metody_alternatywne:'Metody alternatywne', degustacja:'Degustacja', sprzet:'Jaki sprzęt kupić' },
-    q4: { tak:'Tak!', moze:'Może', 'wolę_znajomych':'Woli u siebie', nie:'Raczej nie' },
+    q3: { podstawy_espresso:'Podstawy espresso', mleko:'Mleko i latte art', ziarna_mielenie:'Ziarna i mielenie', kalibracja:'Kalibracja', metody_alternatywne:'Metody alternatywne', degustacja:'Degustacja', sprzet:'Sprzęt' },
+    q4: { tak:'Tak!', moze:'Może', wole_znajomych:'Woli u siebie', nie:'Raczej nie' },
     q5: { gratis:'Tylko kawa', '50':'~50 zł', '100':'~100 zł', '150':'~150 zł' }
   };
 
   let currentKey = '';
 
   window.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const key = params.get('key');
+    const key = new URLSearchParams(window.location.search).get('key');
     if (key) loadResults(key);
-    document.getElementById('key-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') loadResults();
-    });
+    document.getElementById('key-input').addEventListener('keydown', e => { if (e.key === 'Enter') loadResults(); });
   });
 
   function showTab(name) {
-    document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', (i === 0 && name === 'responses') || (i === 1 && name === 'charts'));
-    });
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i===0&&name==='responses')||(i===1&&name==='charts')));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.getElementById(`panel-${name}`).classList.add('active');
-
-    // Animate bars when switching to charts
-    if (name === 'charts') {
-      setTimeout(() => {
-        document.querySelectorAll('.bar-fill').forEach(el => {
-          el.style.width = el.dataset.width;
-        });
-      }, 50);
-    }
+    if (name === 'charts') setTimeout(() => document.querySelectorAll('.bar-fill').forEach(el => el.style.width = el.dataset.width), 50);
   }
 
   async function loadResults(keyParam) {
     currentKey = keyParam || document.getElementById('key-input').value.trim();
     if (!currentKey) return;
-
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
     document.getElementById('auth-error').style.display = 'none';
-
     try {
       const res = await fetch(`/api/results?key=${encodeURIComponent(currentKey)}`);
-      if (res.status === 401) {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('auth-screen').style.display = 'flex';
-        document.getElementById('auth-error').style.display = 'block';
-        return;
-      }
-      if (!res.ok) throw new Error('Server error');
+      if (res.status === 401) { document.getElementById('loading').style.display='none'; document.getElementById('auth-screen').style.display='flex'; document.getElementById('auth-error').style.display='block'; return; }
+      if (!res.ok) throw new Error();
       const data = await res.json();
       renderDashboard(data);
-    } catch (err) {
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('auth-screen').style.display = 'flex';
-      document.getElementById('auth-error').style.display = 'block';
-    }
+    } catch { document.getElementById('loading').style.display='none'; document.getElementById('auth-screen').style.display='flex'; document.getElementById('auth-error').style.display='block'; }
   }
 
   function renderDashboard({ total, responses }) {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     document.getElementById('total-count').textContent = total;
-
-    renderResponsesTable(responses);
+    renderTable(responses);
     renderCharts(responses, total);
   }
 
-  function renderResponsesTable(responses) {
+  function renderTable(responses) {
     const tbody = document.getElementById('responses-body');
     if (!responses || responses.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8"><div class="empty"><span>🫙</span>Brak odpowiedzi jeszcze.</div></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8"><div class="empty"><span class="empty-icon">☕</span>Brak odpowiedzi jeszcze.</div></td></tr>`;
       return;
     }
-
-    // Sort newest first
-    const sorted = [...responses].sort((a, b) => new Date(b.submittedAt || 0) - new Date(a.submittedAt || 0));
-
+    const sorted = [...responses].sort((a,b) => new Date(b.submittedAt||0)-new Date(a.submittedAt||0));
     tbody.innerHTML = sorted.map(r => {
-      const date = r.submittedAt
-        ? new Date(r.submittedAt).toLocaleDateString('pl-PL', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
-        : '—';
-      const q1label = (LABELS.q1[r.q1] || r.q1 || '—');
-      const q3tags = (r.q3 || []).map(v => `<span class="tag">${LABELS.q3[v] || v}</span>`).join('') || '—';
-      const q4label = LABELS.q4[r.q4] || r.q4 || '—';
-      const q5label = LABELS.q5[r.q5] || r.q5 || '—';
-      const frustration = r.q2 ? escHtml(r.q2) : '—';
-      const name = r.name ? escHtml(r.name) : '<em style="color:var(--muted)">Brak</em>';
-      const id = escHtml(r._id || '');
-
+      const date = r.submittedAt ? new Date(r.submittedAt).toLocaleDateString('pl-PL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : '—';
+      const q3tags = (r.q3||[]).map(v=>`<span class="tag">${LABELS.q3[v]||v}</span>`).join('')||'—';
+      const id = esc(r._id||'');
       return `<tr id="row-${id}">
-        <td class="name-cell">${name}</td>
-        <td>${q1label}</td>
+        <td class="name-cell">${r.name ? esc(r.name) : '<em style="color:var(--subtle)">—</em>'}</td>
+        <td>${LABELS.q1[r.q1]||r.q1||'—'}</td>
         <td><div class="tags">${q3tags}</div></td>
-        <td style="max-width:200px">${frustration}</td>
-        <td>${q4label}</td>
-        <td>${q5label}</td>
+        <td style="max-width:180px;color:var(--muted)">${r.q2 ? esc(r.q2) : '—'}</td>
+        <td>${LABELS.q4[r.q4]||r.q4||'—'}</td>
+        <td>${LABELS.q5[r.q5]||r.q5||'—'}</td>
         <td class="date-cell">${date}</td>
-        <td>${id ? `<button class="delete-btn" onclick="deleteResponse('${id}')">Usuń</button>` : ''}</td>
+        <td>${id ? `<button class="delete-btn" onclick="deleteRow('${id}')">Usuń</button>` : ''}</td>
       </tr>`;
     }).join('');
   }
 
-  async function deleteResponse(id) {
+  async function deleteRow(id) {
     if (!confirm('Usunąć tę odpowiedź?')) return;
-
     const btn = document.querySelector(`#row-${id} .delete-btn`);
-    if (btn) { btn.disabled = true; btn.textContent = '…'; }
-
+    if (btn) { btn.disabled=true; btn.textContent='...'; }
     try {
-      const res = await fetch(`/api/delete?key=${encodeURIComponent(currentKey)}&id=${encodeURIComponent(id)}`, {
-        method: 'DELETE'
-      });
-      if (!res.ok) throw new Error('Failed');
-
+      const res = await fetch(`/api/delete?key=${encodeURIComponent(currentKey)}&id=${encodeURIComponent(id)}`,{method:'DELETE'});
+      if (!res.ok) throw new Error();
       const row = document.getElementById(`row-${id}`);
-      if (row) {
-        row.classList.add('row-deleted');
-        setTimeout(() => row.remove(), 800);
-      }
-
-      // Update counter
-      const countEl = document.getElementById('total-count');
-      const current = parseInt(countEl.textContent);
-      if (current > 0) countEl.textContent = current - 1;
-
-    } catch (err) {
-      if (btn) { btn.disabled = false; btn.textContent = 'Usuń'; }
-      alert('Błąd podczas usuwania. Spróbuj ponownie.');
+      if (row) { row.classList.add('row-deleted'); setTimeout(()=>row.remove(),700); }
+      const el = document.getElementById('total-count');
+      const n = parseInt(el.textContent);
+      if (n > 0) el.textContent = n - 1;
+    } catch {
+      if (btn) { btn.disabled=false; btn.textContent='Usuń'; }
+      alert('Błąd. Spróbuj ponownie.');
     }
   }
 
   function renderCharts(responses, total) {
-    if (!responses || total === 0) {
-      ['q1','q3','q4','q5'].forEach(q => {
-        document.getElementById(`chart-${q}`).innerHTML = '<div class="empty"><span>🫙</span>Brak danych.</div>';
-      });
-      return;
-    }
-
+    if (!responses||total===0) { ['q1','q3','q4','q5'].forEach(q=>document.getElementById(`chart-${q}`).innerHTML='<div class="empty"><span class="empty-icon">☕</span>Brak danych.</div>'); return; }
     ['q1','q4','q5'].forEach(q => {
-      const counts = {};
-      responses.forEach(r => { if (r[q]) counts[r[q]] = (counts[r[q]] || 0) + 1; });
-      renderBars(document.getElementById(`chart-${q}`), counts, total, LABELS[q]);
+      const counts={};
+      responses.forEach(r=>{ if(r[q]) counts[r[q]]=(counts[r[q]]||0)+1; });
+      renderBars(document.getElementById(`chart-${q}`),counts,total,LABELS[q]);
     });
-
-    const countsQ3 = {};
-    responses.forEach(r => { (r.q3 || []).forEach(v => { countsQ3[v] = (countsQ3[v] || 0) + 1; }); });
-    renderBars(document.getElementById('chart-q3'), countsQ3, total, LABELS.q3);
+    const c3={};
+    responses.forEach(r=>(r.q3||[]).forEach(v=>c3[v]=(c3[v]||0)+1));
+    renderBars(document.getElementById('chart-q3'),c3,total,LABELS.q3);
   }
 
   function renderBars(container, counts, total, labelMap) {
-    if (Object.keys(counts).length === 0) {
-      container.innerHTML = '<div class="empty"><span>🫙</span>Brak danych.</div>';
-      return;
-    }
-    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    const max = sorted[0][1];
-    container.innerHTML = sorted.map(([key, count]) => {
-      const pct = Math.round((count / total) * 100);
-      const barWidth = Math.round((count / max) * 100);
-      const label = (labelMap && labelMap[key]) || key;
+    if (!Object.keys(counts).length) { container.innerHTML='<div class="empty"><span class="empty-icon">☕</span>Brak danych.</div>'; return; }
+    const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    const max=sorted[0][1];
+    container.innerHTML=sorted.map(([k,n])=>{
+      const pct=Math.round((n/total)*100);
+      const w=Math.round((n/max)*100);
       return `<div class="bar-item">
-        <div class="bar-label-row">
-          <span>${escHtml(label)}</span>
-          <span class="bar-count">${count} (${pct}%)</span>
-        </div>
-        <div class="bar-track">
-          <div class="bar-fill" data-width="${barWidth}%" style="width:0"></div>
-        </div>
+        <div class="bar-label-row"><span>${esc(labelMap[k]||k)}</span><span class="bar-count">${n} (${pct}%)</span></div>
+        <div class="bar-track"><div class="bar-fill" data-width="${w}%" style="width:0"></div></div>
       </div>`;
     }).join('');
   }
 
-  function escHtml(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
 </body>
 </html>
