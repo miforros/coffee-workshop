@@ -30,17 +30,45 @@
   }
 
   /* NAV */
+  /* HERO SECTION */
+  .hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('/hero.jpg');
+    background-size: cover;
+    background-position: center top;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.45) 0%,
+      rgba(10,16,10,0.55) 50%,
+      rgba(10,16,10,0.85) 100%
+    );
+    z-index: 1;
+  }
+
   nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 40px;
     height: 56px;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 100;
+    position: relative;
+    z-index: 10;
   }
 
   .nav-logo {
@@ -52,41 +80,62 @@
     text-transform: uppercase;
   }
 
-  /* HERO */
-  .hero {
-    padding: 80px 40px 72px;
-    max-width: 700px;
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px 80px;
   }
 
-  .hero-eyebrow {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-  }
-
-  .hero h1 {
+  .hero-content h1 {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 800;
-    font-size: clamp(52px, 8vw, 88px);
-    line-height: 0.92;
+    font-size: clamp(56px, 12vw, 120px);
+    line-height: 0.9;
     text-transform: uppercase;
     letter-spacing: 0.01em;
     color: var(--text);
     margin-bottom: 20px;
   }
 
-  .hero h1 span { color: var(--gold); }
-
-  .hero p {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--muted);
-    max-width: 480px;
+  .hero-content h1 span {
+    color: var(--gold);
   }
+
+  .hero-content h1 em {
+    font-style: normal;
+    color: var(--orange);
+  }
+
+  .hero-content p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(240,237,224,0.7);
+    max-width: 420px;
+    margin-bottom: 36px;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 48px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+
+  .hero-cta:hover { background: #dfc060; }
 
   /* FORM SECTION */
   .form-section {
@@ -373,7 +422,7 @@
 
   @media (max-width: 600px) {
     nav { padding: 0 20px; }
-    .hero { padding: 48px 20px 48px; }
+    .hero-content { padding: 40px 20px 60px; }
     .form-section { padding: 40px 20px 60px; }
     footer { padding: 32px 20px; }
     .price-grid { grid-template-columns: 1fr 1fr; }
@@ -382,17 +431,22 @@
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">Jungle</div>
-</nav>
+<div class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
 
-<div class="hero">
-  <div class="hero-eyebrow">Warsztaty Kawowe — Łódź</div>
-  <h1>Naucz się<br>pić kawę<br><span>jak należy.</span></h1>
-  <p>Kameralne warsztaty w moim domu. Zanim cokolwiek zaplanujemy — powiedz czego szukasz.</p>
+  <nav>
+    <div class="nav-logo">Jungle</div>
+  </nav>
+
+  <div class="hero-content">
+    <h1>Witaj w<br><span>The </span><em>Jungle.</em></h1>
+    <p>Kameralne warsztaty kawowe w domu.<br>Dla tych, którzy traktują kawę poważnie.</p>
+    <a href="#ankieta" class="hero-cta">Wypełnij ankietę</a>
+  </div>
 </div>
 
-<div class="form-section">
+<div class="form-section" id="ankieta">
   <div class="form-wrap">
     <div class="section-label">Ankieta</div>
     <div class="section-title">Co chcesz<br>osiągnąć?</div>
