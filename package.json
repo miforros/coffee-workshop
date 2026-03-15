@@ -1,0 +1,8 @@
+{
+  "name": "kawa-warsztaty",
+  "version": "1.0.0",
+  "description": "Ankieta i dashboard dla warsztatów kawowych",
+  "dependencies": {
+    "@vercel/kv": "^1.0.0"
+  }
+}
