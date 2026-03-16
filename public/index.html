@@ -3,32 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jungle — Warsztaty Kawowe</title>
+<title>Jungle — Coffee Workshops</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/_shared.css">
 <style>
   .hero-section { position:relative; width:100%; min-height:100vh; display:flex; flex-direction:column; overflow:hidden; }
   .hero-bg { position:absolute; inset:0; background-image:url('/hero.jpg'); background-size:cover; background-position:center top; z-index:0; }
-  .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,0.42) 0%,rgba(10,16,10,0.58) 50%,rgba(10,16,10,0.9) 100%); z-index:1; }
-  .hero-section nav { background:transparent; border-bottom:1px solid rgba(42,61,42,0.3); }
+  .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,0.42) 0%,rgba(10,16,10,0.6) 50%,rgba(10,16,10,0.92) 100%); z-index:1; }
+  .hero-section nav { background:transparent; border-bottom:1px solid rgba(42,61,42,0.25); }
 
-  .hero-content {
-    position:relative; z-index:2; flex:1;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center; padding:60px 24px 80px;
-  }
+  /* Particles */
+  #particles { position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+  .pt { position:absolute; border-radius:50%; animation:ptFloat linear infinite; opacity:0; }
+  @keyframes ptFloat { 0%{opacity:0;transform:translateY(0) scale(1)} 8%{opacity:0.8} 85%{opacity:0.2} 100%{opacity:0;transform:translateY(-100vh) scale(0.4)} }
+
+  .hero-content { position:relative; z-index:3; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:60px 24px 80px; }
   .hero-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; animation:fadeUp 0.8s 0.3s ease both; }
   .hero-content h1 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(64px,13vw,130px); line-height:0.88; text-transform:uppercase; letter-spacing:0.01em; margin-bottom:22px; }
   .hero-content h1 .l1 { display:block; color:var(--text); animation:slideRight 0.7s 0.5s ease both; opacity:0; }
   .hero-content h1 .l2 { display:block; animation:slideRight 0.7s 0.7s ease both; opacity:0; }
   .hero-content h1 .gold { color:var(--gold); }
   .hero-content h1 .ora { color:var(--orange); }
-  .hero-sub { font-size:15px; line-height:1.75; color:rgba(240,237,224,0.62); max-width:400px; margin-bottom:36px; animation:fadeUp 0.8s 0.9s ease both; opacity:0; }
-  .hero-cta { display:inline-block; background:var(--gold); color:var(--bg); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding:15px 44px; border-radius:3px; transition:background 0.2s,transform 0.2s; animation:fadeUp 0.8s 1.1s ease both; opacity:0; }
+  .hero-sub { font-size:15px; line-height:1.75; color:rgba(240,237,224,0.65); max-width:400px; margin-bottom:36px; animation:fadeUp 0.8s 0.9s ease both; opacity:0; }
+  .hero-cta { display:inline-block; background:var(--gold); color:var(--bg); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding:15px 44px; border-radius:3px; transition:background 0.2s,transform 0.2s; animation:fadeUp 0.8s 1.1s ease both; opacity:0; cursor:pointer; border:none; }
   .hero-cta:hover { background:#dfc060; transform:translateY(-2px); }
-  .hero-scroll-hint { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); z-index:3; animation:bounce 2s 2s ease-in-out infinite; opacity:0.5; }
-  .hero-scroll-hint svg { display:block; }
-  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+  .scroll-hint { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); z-index:4; opacity:0.5; animation:fadeUp 1s 1.4s ease both, scrollBounce 2s 2.5s ease-in-out infinite; }
+  @keyframes scrollBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
   .form-section { background:var(--bg-card); padding:64px 40px 80px; }
   .form-wrap { max-width:680px; margin:0 auto; }
@@ -52,17 +52,14 @@
   .option input[type="checkbox"]:checked::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:var(--bg); font-size:10px; font-weight:700; line-height:1; }
   .option span { font-size:13px; color:var(--muted); transition:color 0.15s; }
   .option:hover span { color:rgba(201,168,76,0.8); }
-
   input[type="text"],textarea { width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:3px; padding:11px 13px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--text); outline:none; transition:border-color 0.2s; }
   input[type="text"]:focus,textarea:focus { border-color:var(--gold); }
   input[type="text"]::placeholder,textarea::placeholder { color:var(--subtle); }
   textarea { min-height:96px; resize:vertical; }
-
   .price-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
   .price-btn { background:var(--bg-input); border:1px solid var(--border); border-radius:3px; padding:13px 10px; text-align:center; cursor:pointer; transition:all 0.18s; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
   .price-btn:hover { border-color:var(--gold); color:var(--gold); }
   .price-btn.selected { border-color:var(--gold); background:rgba(201,168,76,0.1); color:var(--gold); }
-
   .submit-wrap { margin-top:4px; }
   button[type="submit"] { width:100%; background:var(--orange); color:var(--text); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.15em; text-transform:uppercase; border:none; border-radius:3px; padding:18px; cursor:pointer; position:relative; overflow:hidden; transition:background 0.2s,transform 0.15s; }
   button[type="submit"]::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.1); transform:translateX(-100%) skewX(-15deg); transition:transform 0.4s ease; }
@@ -70,17 +67,12 @@
   button[type="submit"]:hover::after { transform:translateX(110%) skewX(-15deg); }
   button[type="submit"]:disabled { opacity:0.5; cursor:not-allowed; }
   .submit-note { margin-top:11px; text-align:center; font-size:12px; color:var(--subtle); letter-spacing:0.05em; }
-
   .thankyou { display:none; text-align:center; padding:80px 20px; }
   .thankyou h2 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:52px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text); margin-bottom:12px; }
   .thankyou p { color:var(--muted); font-size:15px; line-height:1.7; }
-  .ty-icon { font-size:3rem; display:block; margin-bottom:20px; animation:spin 1s ease; }
+  .ty-icon { font-size:3rem; display:block; margin-bottom:20px; animation:spin 0.8s ease; }
   @keyframes spin { from{transform:rotate(-20deg) scale(0.5)} to{transform:rotate(0) scale(1)} }
-
-  @media (max-width:600px) {
-    .hero-content { padding:40px 20px 60px; }
-    .form-section { padding:40px 20px 60px; }
-  }
+  @media (max-width:600px) { .hero-content { padding:40px 20px 60px; } .form-section { padding:40px 20px 60px; } }
 </style>
 </head>
 <body>
@@ -88,23 +80,40 @@
 <div class="hero-section">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
+  <div id="particles"></div>
+
   <nav>
     <a href="/" class="nav-logo">Jungle</a>
-    <div class="nav-links">
-      <a href="/warsztaty.html">Warsztaty</a>
-      <a href="/kontakt.html">Kontakt</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="/workshops.html" data-lang="pl" class="lang-visible">Warsztaty</a>
+        <a href="/workshops.html" data-lang="en">Workshops</a>
+        <a href="/contact.html" data-lang="pl" class="lang-visible">Kontakt</a>
+        <a href="/contact.html" data-lang="en">Contact</a>
+      </div>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-set="pl" onclick="setLang('pl')">PL</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" data-set="en" onclick="setLang('en')">EN</button>
+      </div>
     </div>
   </nav>
+
   <div class="hero-content">
-    <div class="hero-eyebrow">Warsztaty Kawowe — Łódź</div>
+    <div class="hero-eyebrow" data-lang="pl">Warsztaty Kawowe — Łódź</div>
+    <div class="hero-eyebrow" data-lang="en">Coffee Workshops — Łódź, Poland</div>
     <h1>
-      <span class="l1">Witaj w</span>
+      <span class="l1" data-lang="pl">Witaj w</span>
+      <span class="l1" data-lang="en">Welcome to</span>
       <span class="l2"><span class="gold">The </span><span class="ora">Jungle.</span></span>
     </h1>
-    <p class="hero-sub">Kameralne warsztaty kawowe w domu.<br>Dla tych, którzy traktują kawę poważnie.</p>
-    <a href="#ankieta" class="hero-cta" id="cta-scroll">Wypełnij ankietę</a>
+    <p class="hero-sub" data-lang="pl">Kameralne warsztaty kawowe w domu.<br>Dla tych, którzy traktują kawę poważnie.</p>
+    <p class="hero-sub" data-lang="en">Intimate home coffee workshops.<br>For those who take coffee seriously.</p>
+    <button class="hero-cta" id="cta-scroll" data-lang="pl">Wypełnij ankietę</button>
+    <button class="hero-cta" id="cta-scroll-en" data-lang="en" style="display:none">Fill the survey</button>
   </div>
-  <div class="hero-scroll-hint">
+
+  <div class="scroll-hint">
     <svg width="20" height="28" viewBox="0 0 20 28" fill="none"><rect x="1" y="1" width="18" height="26" rx="9" stroke="#c9a84c" stroke-width="1.5"/><circle cx="10" cy="8" r="2.5" fill="#c9a84c"><animate attributeName="cy" values="8;17;8" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite"/></circle></svg>
   </div>
 </div>
@@ -132,60 +141,76 @@
 
 <div class="form-section" id="ankieta">
   <div class="form-wrap">
-    <div class="section-label reveal">Ankieta</div>
-    <div class="section-title reveal">Co chcesz<br>osiągnąć?</div>
+    <div class="section-label reveal" data-lang="pl">Ankieta</div>
+    <div class="section-label reveal" data-lang="en">Survey</div>
+    <div class="section-title reveal" data-lang="pl">Co chcesz<br>osiągnąć?</div>
+    <div class="section-title reveal" data-lang="en">What do you<br>want to learn?</div>
+
     <form id="survey">
       <div class="q-block reveal">
-        <div class="q-tag">Na początek</div>
-        <label class="q-label" for="name-input">Jak masz na imię?</label>
-        <input type="text" id="name-input" name="name" placeholder="Twoje imię..." autocomplete="given-name">
+        <div class="q-tag" data-lang="pl">Na początek</div>
+        <div class="q-tag" data-lang="en">First things first</div>
+        <label class="q-label" for="name-input" data-lang="pl">Jak masz na imię?</label>
+        <label class="q-label" for="name-input" data-lang="en">What's your name?</label>
+        <input type="text" id="name-input" name="name" data-placeholder-pl="Twoje imię..." data-placeholder-en="Your name..." autocomplete="given-name">
       </div>
       <div class="q-block reveal">
-        <div class="q-tag">Pytanie 1 z 5</div>
-        <label class="q-label">Jak teraz parzysz kawę w domu?</label>
+        <div class="q-tag" data-lang="pl">Pytanie 1 z 5</div>
+        <div class="q-tag" data-lang="en">Question 1 of 5</div>
+        <label class="q-label" data-lang="pl">Jak teraz parzysz kawę w domu?</label>
+        <label class="q-label" data-lang="en">How do you currently brew coffee at home?</label>
         <div class="options">
-          <label class="option"><input type="radio" name="q1" value="kapsulki"><span>Kapsułki (Nespresso, Dolce Gusto itp.)</span></label>
-          <label class="option"><input type="radio" name="q1" value="ekspres_automatyczny"><span>Ekspres automatyczny (ziarnista)</span></label>
-          <label class="option"><input type="radio" name="q1" value="espresso_reczne"><span>Ekspres kolbowy (ręczne espresso)</span></label>
-          <label class="option"><input type="radio" name="q1" value="moka"><span>Moka / kawiarka</span></label>
-          <label class="option"><input type="radio" name="q1" value="drip_pour_over"><span>Drip / pour over / chemex</span></label>
-          <label class="option"><input type="radio" name="q1" value="french_press"><span>French press</span></label>
-          <label class="option"><input type="radio" name="q1" value="nie_parze"><span>Właściwie nie parzę — kupuję gotową</span></label>
+          <label class="option"><input type="radio" name="q1" value="kapsulki"><span data-lang="pl">Kapsułki (Nespresso, Dolce Gusto itp.)</span><span data-lang="en">Capsules (Nespresso, Dolce Gusto etc.)</span></label>
+          <label class="option"><input type="radio" name="q1" value="ekspres_automatyczny"><span data-lang="pl">Ekspres automatyczny (ziarnista)</span><span data-lang="en">Automatic bean-to-cup machine</span></label>
+          <label class="option"><input type="radio" name="q1" value="espresso_reczne"><span data-lang="pl">Ekspres kolbowy (ręczne espresso)</span><span data-lang="en">Manual espresso machine</span></label>
+          <label class="option"><input type="radio" name="q1" value="moka"><span data-lang="pl">Moka / kawiarka</span><span data-lang="en">Moka pot / stovetop</span></label>
+          <label class="option"><input type="radio" name="q1" value="drip_pour_over"><span data-lang="pl">Drip / pour over / chemex</span><span data-lang="en">Drip / pour over / chemex</span></label>
+          <label class="option"><input type="radio" name="q1" value="french_press"><span data-lang="pl">French press</span><span data-lang="en">French press</span></label>
+          <label class="option"><input type="radio" name="q1" value="nie_parze"><span data-lang="pl">Właściwie nie parzę — kupuję gotową</span><span data-lang="en">I don't brew — I buy it ready</span></label>
         </div>
       </div>
       <div class="q-block reveal">
-        <div class="q-tag">Pytanie 2 z 5</div>
-        <label class="q-label">Co najbardziej Cię frustruje w domowej kawie?</label>
-        <textarea name="q2" placeholder="Napisz szczerze..."></textarea>
+        <div class="q-tag" data-lang="pl">Pytanie 2 z 5</div>
+        <div class="q-tag" data-lang="en">Question 2 of 5</div>
+        <label class="q-label" data-lang="pl">Co najbardziej Cię frustruje w domowej kawie?</label>
+        <label class="q-label" data-lang="en">What frustrates you most about your home coffee?</label>
+        <textarea name="q2" data-placeholder-pl="Napisz szczerze..." data-placeholder-en="Be honest..."></textarea>
       </div>
       <div class="q-block reveal">
-        <div class="q-tag">Pytanie 3 z 5</div>
-        <label class="q-label">Czego chcesz się nauczyć? (możesz zaznaczyć kilka)</label>
+        <div class="q-tag" data-lang="pl">Pytanie 3 z 5</div>
+        <div class="q-tag" data-lang="en">Question 3 of 5</div>
+        <label class="q-label" data-lang="pl">Czego chcesz się nauczyć? (możesz zaznaczyć kilka)</label>
+        <label class="q-label" data-lang="en">What do you want to learn? (multiple choice)</label>
         <div class="options">
-          <label class="option"><input type="checkbox" name="q3" value="podstawy_espresso"><span>Podstawy parzenia espresso</span></label>
-          <label class="option"><input type="checkbox" name="q3" value="mleko"><span>Spienianie mleka i latte art</span></label>
-          <label class="option"><input type="checkbox" name="q3" value="ziarna_mielenie"><span>Dobór ziaren i mielenie</span></label>
-          <label class="option"><input type="checkbox" name="q3" value="kalibracja"><span>Jak skalibrować ekspres</span></label>
-          <label class="option"><input type="checkbox" name="q3" value="metody_alternatywne"><span>Metody alternatywne (drip, aeropress, chemex)</span></label>
-          <label class="option"><input type="checkbox" name="q3" value="degustacja"><span>Jak smakować i oceniać kawę</span></label>
-          <label class="option"><input type="checkbox" name="q3" value="sprzet"><span>Jaki sprzęt warto kupić</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="podstawy_espresso"><span data-lang="pl">Podstawy parzenia espresso</span><span data-lang="en">Espresso basics</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="mleko"><span data-lang="pl">Spienianie mleka i latte art</span><span data-lang="en">Milk steaming and latte art</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="ziarna_mielenie"><span data-lang="pl">Dobór ziaren i mielenie</span><span data-lang="en">Bean selection and grinding</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="kalibracja"><span data-lang="pl">Jak skalibrować ekspres</span><span data-lang="en">How to dial in your machine</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="metody_alternatywne"><span data-lang="pl">Metody alternatywne (drip, aeropress, chemex)</span><span data-lang="en">Alternative methods (drip, aeropress, chemex)</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="degustacja"><span data-lang="pl">Jak smakować i oceniać kawę</span><span data-lang="en">How to taste and evaluate coffee</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="sprzet"><span data-lang="pl">Jaki sprzęt warto kupić</span><span data-lang="en">What equipment to buy</span></label>
         </div>
       </div>
       <div class="q-block reveal">
-        <div class="q-tag">Pytanie 4 z 5</div>
-        <label class="q-label">Czy przyszłabyś / przyszedłbyś na warsztaty do kogoś do domu?</label>
+        <div class="q-tag" data-lang="pl">Pytanie 4 z 5</div>
+        <div class="q-tag" data-lang="en">Question 4 of 5</div>
+        <label class="q-label" data-lang="pl">Czy przyszłabyś / przyszedłbyś na warsztaty do kogoś do domu?</label>
+        <label class="q-label" data-lang="en">Would you attend a workshop at someone's home?</label>
         <div class="options">
-          <label class="option"><input type="radio" name="q4" value="tak"><span>Tak, czemu nie!</span></label>
-          <label class="option"><input type="radio" name="q4" value="moze"><span>Może — zależy od lokalizacji</span></label>
-          <label class="option"><input type="radio" name="q4" value="wole_znajomych"><span>Wolę, żeby to było u mnie albo u znajomych</span></label>
-          <label class="option"><input type="radio" name="q4" value="nie"><span>Raczej nie</span></label>
+          <label class="option"><input type="radio" name="q4" value="tak"><span data-lang="pl">Tak, czemu nie!</span><span data-lang="en">Yes, why not!</span></label>
+          <label class="option"><input type="radio" name="q4" value="moze"><span data-lang="pl">Może — zależy od lokalizacji</span><span data-lang="en">Maybe — depends on location</span></label>
+          <label class="option"><input type="radio" name="q4" value="wole_znajomych"><span data-lang="pl">Wolę, żeby to było u mnie albo u znajomych</span><span data-lang="en">I'd prefer my place or a friend's</span></label>
+          <label class="option"><input type="radio" name="q4" value="nie"><span data-lang="pl">Raczej nie</span><span data-lang="en">Probably not</span></label>
         </div>
       </div>
       <div class="q-block reveal">
-        <div class="q-tag">Pytanie 5 z 5</div>
-        <label class="q-label">Co wydaje Ci się uczciwą ceną za 2 godziny warsztatów?</label>
+        <div class="q-tag" data-lang="pl">Pytanie 5 z 5</div>
+        <div class="q-tag" data-lang="en">Question 5 of 5</div>
+        <label class="q-label" data-lang="pl">Co wydaje Ci się uczciwą ceną za 2 godziny warsztatów?</label>
+        <label class="q-label" data-lang="en">What feels like a fair price for a 2-hour workshop?</label>
         <div class="price-grid" id="priceGrid">
-          <div class="price-btn" data-value="gratis" onclick="selectPrice(this)">Tylko koszt kawy</div>
+          <div class="price-btn" data-value="gratis" onclick="selectPrice(this)" data-lang="pl">Tylko koszt kawy</div>
+          <div class="price-btn" data-value="gratis" onclick="selectPrice(this)" data-lang="en">Coffee cost only</div>
           <div class="price-btn" data-value="50" onclick="selectPrice(this)">~50 zł</div>
           <div class="price-btn" data-value="100" onclick="selectPrice(this)">~100 zł</div>
           <div class="price-btn" data-value="150" onclick="selectPrice(this)">~150 zł</div>
@@ -193,14 +218,18 @@
         <input type="hidden" name="q5" id="q5-value">
       </div>
       <div class="submit-wrap reveal">
-        <button type="submit"><span>Wyślij odpowiedzi</span></button>
-        <p class="submit-note">Każda odpowiedź naprawdę pomaga.</p>
+        <button type="submit"><span data-lang="pl">Wyślij odpowiedzi</span><span data-lang="en">Submit answers</span></button>
+        <p class="submit-note" data-lang="pl">Każda odpowiedź naprawdę pomaga.</p>
+        <p class="submit-note" data-lang="en">Every answer genuinely helps.</p>
       </div>
     </form>
+
     <div class="thankyou" id="thankyou">
       <span class="ty-icon">☕</span>
-      <h2>Dzięki.</h2>
-      <p>Twoje odpowiedzi są dla mnie bardzo cenne.<br>Wkrótce dam znać jak będą wyglądać warsztaty.</p>
+      <h2 data-lang="pl">Dzięki.</h2>
+      <h2 data-lang="en">Thank you.</h2>
+      <p data-lang="pl">Twoje odpowiedzi są dla mnie bardzo cenne.<br>Wkrótce dam znać jak będą wyglądać warsztaty.</p>
+      <p data-lang="en">Your answers mean a lot to me.<br>I'll be in touch soon about the workshops.</p>
     </div>
   </div>
 </div>
@@ -209,56 +238,76 @@
   <div class="footer-inner">
     <div class="footer-logo">Jungle</div>
     <div class="footer-links">
-      <a href="/warsztaty.html">Warsztaty</a>
-      <a href="/kontakt.html">Kontakt</a>
+      <a href="/workshops.html" data-lang="pl">Warsztaty</a>
+      <a href="/workshops.html" data-lang="en">Workshops</a>
+      <a href="/contact.html" data-lang="pl">Kontakt</a>
+      <a href="/contact.html" data-lang="en">Contact</a>
     </div>
     <div class="footer-copy">© 2026 Jungle Coffee & Workshops</div>
   </div>
 </footer>
 
+<script src="/_shared.js"></script>
 <script>
-  document.getElementById('cta-scroll').addEventListener('click', function(e) {
-    e.preventDefault();
-    document.getElementById('ankieta').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Particles
+  var ptColors = ['#c9a84c','#2a5a2a','#d4540a','#1e3a1e','#c9a84c88'];
+  var pc = document.getElementById('particles');
+  function mkPt() {
+    var p = document.createElement('div'); p.className = 'pt';
+    var s = Math.random()*3+1;
+    p.style.cssText = 'width:'+s+'px;height:'+s+'px;left:'+Math.random()*100+'%;bottom:-6px;background:'+ptColors[Math.floor(Math.random()*ptColors.length)]+';animation-duration:'+(5+Math.random()*7)+'s;animation-delay:'+Math.random()*2+'s';
+    pc.appendChild(p);
+    setTimeout(function(){p.remove();}, 12000);
+  }
+  setInterval(mkPt, 350);
+
+  // Smooth scroll CTA
+  ['cta-scroll','cta-scroll-en'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', function() {
+      document.getElementById('ankieta').scrollIntoView({ behavior:'smooth', block:'start' });
+    });
   });
 
+  // Price select
   function selectPrice(el) {
-    document.querySelectorAll('.price-btn').forEach(b => b.classList.remove('selected'));
-    el.classList.add('selected');
+    document.querySelectorAll('.price-btn').forEach(function(b){ b.classList.remove('selected'); });
+    // select all btns with same value
+    document.querySelectorAll('.price-btn[data-value="'+el.dataset.value+'"]').forEach(function(b){ b.classList.add('selected'); });
     document.getElementById('q5-value').value = el.dataset.value;
   }
 
+  // Placeholders by lang
+  function updatePlaceholders() {
+    var lang = document.querySelector('.lang-btn.active').dataset.set;
+    document.querySelectorAll('[data-placeholder-pl]').forEach(function(el) {
+      el.placeholder = lang === 'en' ? el.dataset.placeholderEn : el.dataset.placeholderPl;
+    });
+  }
+  var origSetLang = window.setLang;
+  window.setLang = function(l) { origSetLang(l); updatePlaceholders(); };
+
+  // Form submit
   document.getElementById('survey').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const btn = document.querySelector('button[type="submit"]');
+    var btn = document.querySelector('button[type="submit"]');
     btn.disabled = true;
-    btn.querySelector('span').textContent = 'Wysyłam...';
-    const data = {};
+    var data = {};
     data.name = document.getElementById('name-input').value.trim() || null;
-    data.q1 = (document.querySelector('input[name="q1"]:checked') || {}).value || null;
+    data.q1 = (document.querySelector('input[name="q1"]:checked')||{}).value || null;
     data.q2 = document.querySelector('textarea[name="q2"]').value.trim() || null;
-    const checked = [...document.querySelectorAll('input[name="q3"]:checked')].map(i => i.value);
+    var checked = [...document.querySelectorAll('input[name="q3"]:checked')].map(function(i){return i.value;});
     data.q3 = checked.length ? checked : [];
-    data.q4 = (document.querySelector('input[name="q4"]:checked') || {}).value || null;
+    data.q4 = (document.querySelector('input[name="q4"]:checked')||{}).value || null;
     data.q5 = document.getElementById('q5-value').value || null;
     data.submittedAt = new Date().toISOString();
     try {
-      const res = await fetch('/api/submit', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+      var res = await fetch('/api/submit', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       if (!res.ok) throw new Error();
     } catch(err) { console.error(err); }
     document.getElementById('survey').style.display = 'none';
     document.getElementById('thankyou').style.display = 'block';
   });
-
-  const io = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('in'), i * 60);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
