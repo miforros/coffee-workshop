@@ -4,428 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jungle — Warsztaty Kawowe</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/_shared.css">
 <style>
-  :root {
-    --bg:        #0f1410;
-    --bg-card:   #162014;
-    --bg-input:  #0c0f0d;
-    --border:    #2a3d2a;
-    --gold:      #c9a84c;
-    --orange:    #d4540a;
-    --orange-h:  #e8620f;
-    --text:      #f0ede0;
-    --muted:     #7a8a7a;
-    --subtle:    #3a4a3a;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-weight: 400;
-    min-height: 100vh;
-  }
-
-  /* NAV */
-  /* HERO SECTION */
-  .hero-section {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background-image: url('/hero.jpg');
-    background-size: cover;
-    background-position: center top;
-    z-index: 0;
-  }
-
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.45) 0%,
-      rgba(10,16,10,0.55) 50%,
-      rgba(10,16,10,0.85) 100%
-    );
-    z-index: 1;
-  }
-
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    height: 56px;
-    position: relative;
-    z-index: 10;
-  }
-
-  .nav-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: 0.05em;
-    color: var(--gold);
-    text-transform: uppercase;
-  }
+  .hero-section { position:relative; width:100%; min-height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+  .hero-bg { position:absolute; inset:0; background-image:url('/hero.jpg'); background-size:cover; background-position:center top; z-index:0; }
+  .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,0.42) 0%,rgba(10,16,10,0.58) 50%,rgba(10,16,10,0.9) 100%); z-index:1; }
+  .hero-section nav { background:transparent; border-bottom:1px solid rgba(42,61,42,0.3); }
 
   .hero-content {
-    position: relative;
-    z-index: 2;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 60px 24px 80px;
+    position:relative; z-index:2; flex:1;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:60px 24px 80px;
   }
+  .hero-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; animation:fadeUp 0.8s 0.3s ease both; }
+  .hero-content h1 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(64px,13vw,130px); line-height:0.88; text-transform:uppercase; letter-spacing:0.01em; margin-bottom:22px; }
+  .hero-content h1 .l1 { display:block; color:var(--text); animation:slideRight 0.7s 0.5s ease both; opacity:0; }
+  .hero-content h1 .l2 { display:block; animation:slideRight 0.7s 0.7s ease both; opacity:0; }
+  .hero-content h1 .gold { color:var(--gold); }
+  .hero-content h1 .ora { color:var(--orange); }
+  .hero-sub { font-size:15px; line-height:1.75; color:rgba(240,237,224,0.62); max-width:400px; margin-bottom:36px; animation:fadeUp 0.8s 0.9s ease both; opacity:0; }
+  .hero-cta { display:inline-block; background:var(--gold); color:var(--bg); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding:15px 44px; border-radius:3px; transition:background 0.2s,transform 0.2s; animation:fadeUp 0.8s 1.1s ease both; opacity:0; }
+  .hero-cta:hover { background:#dfc060; transform:translateY(-2px); }
+  .hero-scroll-hint { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); z-index:3; animation:bounce 2s 2s ease-in-out infinite; opacity:0.5; }
+  .hero-scroll-hint svg { display:block; }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
-  .hero-content h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: clamp(56px, 12vw, 120px);
-    line-height: 0.9;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    color: var(--text);
-    margin-bottom: 20px;
-  }
+  .form-section { background:var(--bg-card); padding:64px 40px 80px; }
+  .form-wrap { max-width:680px; margin:0 auto; }
+  .section-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+  .section-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(32px,5vw,48px); text-transform:uppercase; letter-spacing:0.02em; color:var(--text); margin-bottom:40px; line-height:0.95; }
+  form { display:flex; flex-direction:column; gap:16px; }
 
-  .hero-content h1 span {
-    color: var(--gold);
-  }
+  .q-block { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:24px; transition:border-color 0.25s,transform 0.25s; position:relative; overflow:hidden; }
+  .q-block::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gold); transform:scaleY(0); transform-origin:bottom; transition:transform 0.3s ease; }
+  .q-block:focus-within { border-color:rgba(201,168,76,0.5); transform:translateX(4px); }
+  .q-block:focus-within::before { transform:scaleY(1); }
+  .q-tag { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:7px; }
+  .q-label { display:block; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.07em; text-transform:uppercase; color:var(--text); margin-bottom:16px; }
+  .options { display:flex; flex-direction:column; gap:4px; }
+  .option { display:flex; align-items:center; gap:12px; padding:9px 11px; border-radius:3px; cursor:pointer; border:1px solid transparent; transition:all 0.15s; }
+  .option:hover { background:rgba(201,168,76,0.06); border-color:rgba(201,168,76,0.18); }
+  .option input[type="radio"],.option input[type="checkbox"] { appearance:none; -webkit-appearance:none; width:15px; height:15px; border:1px solid var(--subtle); border-radius:50%; flex-shrink:0; cursor:pointer; transition:all 0.15s; position:relative; }
+  .option input[type="checkbox"] { border-radius:3px; }
+  .option input:checked { background:var(--gold); border-color:var(--gold); }
+  .option input[type="radio"]:checked::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:5px; height:5px; border-radius:50%; background:var(--bg); }
+  .option input[type="checkbox"]:checked::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:var(--bg); font-size:10px; font-weight:700; line-height:1; }
+  .option span { font-size:13px; color:var(--muted); transition:color 0.15s; }
+  .option:hover span { color:rgba(201,168,76,0.8); }
 
-  .hero-content h1 em {
-    font-style: normal;
-    color: var(--orange);
-  }
+  input[type="text"],textarea { width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:3px; padding:11px 13px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--text); outline:none; transition:border-color 0.2s; }
+  input[type="text"]:focus,textarea:focus { border-color:var(--gold); }
+  input[type="text"]::placeholder,textarea::placeholder { color:var(--subtle); }
+  textarea { min-height:96px; resize:vertical; }
 
-  .hero-content p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: rgba(240,237,224,0.7);
-    max-width: 420px;
-    margin-bottom: 36px;
-  }
+  .price-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .price-btn { background:var(--bg-input); border:1px solid var(--border); border-radius:3px; padding:13px 10px; text-align:center; cursor:pointer; transition:all 0.18s; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+  .price-btn:hover { border-color:var(--gold); color:var(--gold); }
+  .price-btn.selected { border-color:var(--gold); background:rgba(201,168,76,0.1); color:var(--gold); }
 
-  .hero-cta {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--bg);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 16px 48px;
-    border-radius: 4px;
-    transition: background 0.2s ease;
-  }
+  .submit-wrap { margin-top:4px; }
+  button[type="submit"] { width:100%; background:var(--orange); color:var(--text); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.15em; text-transform:uppercase; border:none; border-radius:3px; padding:18px; cursor:pointer; position:relative; overflow:hidden; transition:background 0.2s,transform 0.15s; }
+  button[type="submit"]::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.1); transform:translateX(-100%) skewX(-15deg); transition:transform 0.4s ease; }
+  button[type="submit"]:hover { background:var(--orange-h); transform:translateY(-1px); }
+  button[type="submit"]:hover::after { transform:translateX(110%) skewX(-15deg); }
+  button[type="submit"]:disabled { opacity:0.5; cursor:not-allowed; }
+  .submit-note { margin-top:11px; text-align:center; font-size:12px; color:var(--subtle); letter-spacing:0.05em; }
 
-  .hero-cta:hover { background: #dfc060; }
+  .thankyou { display:none; text-align:center; padding:80px 20px; }
+  .thankyou h2 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:52px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text); margin-bottom:12px; }
+  .thankyou p { color:var(--muted); font-size:15px; line-height:1.7; }
+  .ty-icon { font-size:3rem; display:block; margin-bottom:20px; animation:spin 1s ease; }
+  @keyframes spin { from{transform:rotate(-20deg) scale(0.5)} to{transform:rotate(0) scale(1)} }
 
-  /* FORM SECTION */
-  .form-section {
-    background: var(--bg-card);
-    padding: 60px 40px 80px;
-  }
-
-  .form-wrap {
-    max-width: 680px;
-    margin: 0 auto;
-  }
-
-  .section-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 12px;
-  }
-
-  .section-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: clamp(28px, 4vw, 40px);
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--text);
-    margin-bottom: 40px;
-    line-height: 1;
-  }
-
-  form { display: flex; flex-direction: column; gap: 20px; }
-
-  /* QUESTION BLOCK */
-  .q-block {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 24px;
-    transition: border-color 0.2s ease;
-  }
-
-  .q-block:focus-within {
-    border-color: var(--gold);
-  }
-
-  .q-tag {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 8px;
-  }
-
-  .q-label {
-    display: block;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text);
-    margin-bottom: 18px;
-  }
-
-  /* OPTIONS */
-  .options { display: flex; flex-direction: column; gap: 6px; }
-
-  .option {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s ease;
-  }
-
-  .option:hover {
-    background: rgba(201,168,76,0.06);
-    border-color: rgba(201,168,76,0.2);
-  }
-
-  .option input[type="radio"],
-  .option input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 16px; height: 16px;
-    border: 1px solid var(--subtle);
-    border-radius: 50%;
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    position: relative;
-  }
-
-  .option input[type="checkbox"] { border-radius: 3px; }
-
-  .option input:checked {
-    background: var(--gold);
-    border-color: var(--gold);
-  }
-
-  .option input[type="radio"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--bg);
-  }
-
-  .option input[type="checkbox"]:checked::after {
-    content: '✓';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    color: var(--bg);
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1;
-  }
-
-  .option span {
-    font-size: 14px;
-    color: var(--muted);
-  }
-
-  /* TEXT INPUT */
-  input[type="text"],
-  textarea {
-    width: 100%;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 12px 14px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.2s ease;
-  }
-
-  input[type="text"]:focus,
-  textarea:focus {
-    border-color: var(--gold);
-  }
-
-  input[type="text"]::placeholder,
-  textarea::placeholder {
-    color: var(--subtle);
-  }
-
-  textarea { min-height: 96px; resize: vertical; }
-
-  /* PRICE GRID */
-  .price-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .price-btn {
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 14px 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .price-btn:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-
-  .price-btn.selected {
-    border-color: var(--gold);
-    background: rgba(201,168,76,0.1);
-    color: var(--gold);
-  }
-
-  /* SUBMIT */
-  .submit-wrap { margin-top: 8px; }
-
-  button[type="submit"] {
-    width: 100%;
-    background: var(--orange);
-    color: var(--text);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 4px;
-    padding: 18px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-
-  button[type="submit"]:hover { background: var(--orange-h); }
-  button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .submit-note {
-    margin-top: 12px;
-    text-align: center;
-    font-size: 12px;
-    color: var(--subtle);
-    letter-spacing: 0.05em;
-  }
-
-  /* THANK YOU */
-  .thankyou {
-    display: none;
-    text-align: center;
-    padding: 80px 20px;
-  }
-
-  .thankyou-icon {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: 24px;
-  }
-
-  .thankyou h2 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 48px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--text);
-    margin-bottom: 12px;
-  }
-
-  .thankyou p { color: var(--muted); font-size: 15px; line-height: 1.7; }
-
-  /* FOOTER */
-  footer {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    padding: 40px;
-  }
-
-  .footer-inner {
-    max-width: 680px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .footer-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 20px;
-    letter-spacing: 0.05em;
-    color: var(--gold);
-    text-transform: uppercase;
-  }
-
-  .footer-copy {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--subtle);
-  }
-
-  @media (max-width: 600px) {
-    nav { padding: 0 20px; }
-    .hero-content { padding: 40px 20px 60px; }
-    .form-section { padding: 40px 20px 60px; }
-    footer { padding: 32px 20px; }
-    .price-grid { grid-template-columns: 1fr 1fr; }
+  @media (max-width:600px) {
+    .hero-content { padding:40px 20px 60px; }
+    .form-section { padding:40px 20px 60px; }
   }
 </style>
 </head>
@@ -434,34 +88,59 @@
 <div class="hero-section">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
-
   <nav>
-    <div class="nav-logo">Jungle</div>
+    <a href="/" class="nav-logo">Jungle</a>
+    <div class="nav-links">
+      <a href="/warsztaty.html">Warsztaty</a>
+      <a href="/kontakt.html">Kontakt</a>
+    </div>
   </nav>
-
   <div class="hero-content">
-    <h1>Witaj w<br><span>The </span><em>Jungle.</em></h1>
-    <p>Kameralne warsztaty kawowe w domu.<br>Dla tych, którzy traktują kawę poważnie.</p>
-    <a href="#ankieta" class="hero-cta">Wypełnij ankietę</a>
+    <div class="hero-eyebrow">Warsztaty Kawowe — Łódź</div>
+    <h1>
+      <span class="l1">Witaj w</span>
+      <span class="l2"><span class="gold">The </span><span class="ora">Jungle.</span></span>
+    </h1>
+    <p class="hero-sub">Kameralne warsztaty kawowe w domu.<br>Dla tych, którzy traktują kawę poważnie.</p>
+    <a href="#ankieta" class="hero-cta" id="cta-scroll">Wypełnij ankietę</a>
+  </div>
+  <div class="hero-scroll-hint">
+    <svg width="20" height="28" viewBox="0 0 20 28" fill="none"><rect x="1" y="1" width="18" height="26" rx="9" stroke="#c9a84c" stroke-width="1.5"/><circle cx="10" cy="8" r="2.5" fill="#c9a84c"><animate attributeName="cy" values="8;17;8" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite"/></circle></svg>
+  </div>
+</div>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Espresso<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Latte Art<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Pour Over<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Kalibracja<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Degustacja<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Ziarna<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Mielenie<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Aeropress<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Espresso<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Latte Art<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Pour Over<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Kalibracja<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Degustacja<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Ziarna<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Mielenie<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Aeropress<span class="marquee-dot"> ✦ </span></span>
   </div>
 </div>
 
 <div class="form-section" id="ankieta">
   <div class="form-wrap">
-    <div class="section-label">Ankieta</div>
-    <div class="section-title">Co chcesz<br>osiągnąć?</div>
-
+    <div class="section-label reveal">Ankieta</div>
+    <div class="section-title reveal">Co chcesz<br>osiągnąć?</div>
     <form id="survey">
-
-      <!-- IMIĘ -->
-      <div class="q-block">
+      <div class="q-block reveal">
         <div class="q-tag">Na początek</div>
         <label class="q-label" for="name-input">Jak masz na imię?</label>
         <input type="text" id="name-input" name="name" placeholder="Twoje imię..." autocomplete="given-name">
       </div>
-
-      <!-- Q1 -->
-      <div class="q-block">
+      <div class="q-block reveal">
         <div class="q-tag">Pytanie 1 z 5</div>
         <label class="q-label">Jak teraz parzysz kawę w domu?</label>
         <div class="options">
@@ -474,16 +153,12 @@
           <label class="option"><input type="radio" name="q1" value="nie_parze"><span>Właściwie nie parzę — kupuję gotową</span></label>
         </div>
       </div>
-
-      <!-- Q2 -->
-      <div class="q-block">
+      <div class="q-block reveal">
         <div class="q-tag">Pytanie 2 z 5</div>
         <label class="q-label">Co najbardziej Cię frustruje w domowej kawie?</label>
         <textarea name="q2" placeholder="Napisz szczerze..."></textarea>
       </div>
-
-      <!-- Q3 -->
-      <div class="q-block">
+      <div class="q-block reveal">
         <div class="q-tag">Pytanie 3 z 5</div>
         <label class="q-label">Czego chcesz się nauczyć? (możesz zaznaczyć kilka)</label>
         <div class="options">
@@ -496,9 +171,7 @@
           <label class="option"><input type="checkbox" name="q3" value="sprzet"><span>Jaki sprzęt warto kupić</span></label>
         </div>
       </div>
-
-      <!-- Q4 -->
-      <div class="q-block">
+      <div class="q-block reveal">
         <div class="q-tag">Pytanie 4 z 5</div>
         <label class="q-label">Czy przyszłabyś / przyszedłbyś na warsztaty do kogoś do domu?</label>
         <div class="options">
@@ -508,9 +181,7 @@
           <label class="option"><input type="radio" name="q4" value="nie"><span>Raczej nie</span></label>
         </div>
       </div>
-
-      <!-- Q5 -->
-      <div class="q-block">
+      <div class="q-block reveal">
         <div class="q-tag">Pytanie 5 z 5</div>
         <label class="q-label">Co wydaje Ci się uczciwą ceną za 2 godziny warsztatów?</label>
         <div class="price-grid" id="priceGrid">
@@ -521,31 +192,36 @@
         </div>
         <input type="hidden" name="q5" id="q5-value">
       </div>
-
-      <div class="submit-wrap">
+      <div class="submit-wrap reveal">
         <button type="submit"><span>Wyślij odpowiedzi</span></button>
         <p class="submit-note">Każda odpowiedź naprawdę pomaga.</p>
       </div>
-
     </form>
-
     <div class="thankyou" id="thankyou">
-      <span class="thankyou-icon">☕</span>
+      <span class="ty-icon">☕</span>
       <h2>Dzięki.</h2>
       <p>Twoje odpowiedzi są dla mnie bardzo cenne.<br>Wkrótce dam znać jak będą wyglądać warsztaty.</p>
     </div>
-
   </div>
 </div>
 
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Jungle</div>
+    <div class="footer-links">
+      <a href="/warsztaty.html">Warsztaty</a>
+      <a href="/kontakt.html">Kontakt</a>
+    </div>
     <div class="footer-copy">© 2026 Jungle Coffee & Workshops</div>
   </div>
 </footer>
 
 <script>
+  document.getElementById('cta-scroll').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('ankieta').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
   function selectPrice(el) {
     document.querySelectorAll('.price-btn').forEach(b => b.classList.remove('selected'));
     el.classList.add('selected');
@@ -554,11 +230,9 @@
 
   document.getElementById('survey').addEventListener('submit', async function(e) {
     e.preventDefault();
-
     const btn = document.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.querySelector('span').textContent = 'Wysyłam...';
-
     const data = {};
     data.name = document.getElementById('name-input').value.trim() || null;
     data.q1 = (document.querySelector('input[name="q1"]:checked') || {}).value || null;
@@ -568,22 +242,23 @@
     data.q4 = (document.querySelector('input[name="q4"]:checked') || {}).value || null;
     data.q5 = document.getElementById('q5-value').value || null;
     data.submittedAt = new Date().toISOString();
-
     try {
-      const res = await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!res.ok) throw new Error('Błąd serwera');
-    } catch (err) {
-      console.error(err);
-    }
-
+      const res = await fetch('/api/submit', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+      if (!res.ok) throw new Error();
+    } catch(err) { console.error(err); }
     document.getElementById('survey').style.display = 'none';
     document.getElementById('thankyou').style.display = 'block';
   });
-</script>
 
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>

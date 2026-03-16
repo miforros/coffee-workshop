@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jungle — Warsztaty</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/_shared.css">
+<style>
+  .page-hero { background:var(--bg-card); padding:80px 40px 64px; border-bottom:1px solid var(--border); }
+  .page-hero-inner { max-width:1100px; margin:0 auto; }
+  .page-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+  .page-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(52px,9vw,100px); line-height:0.88; text-transform:uppercase; letter-spacing:0.01em; color:var(--text); margin-bottom:20px; }
+  .page-title span { color:var(--orange); }
+  .page-sub { font-size:15px; line-height:1.75; color:var(--muted); max-width:560px; }
+
+  .content { max-width:1100px; margin:0 auto; padding:64px 40px 80px; }
+
+  /* STATS ROW */
+  .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; margin-bottom:72px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+  .stat-box { background:var(--bg-card); padding:28px 24px; text-align:center; }
+  .stat-num { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:48px; line-height:1; color:var(--gold); display:block; }
+  .stat-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-top:6px; display:block; }
+
+  /* TIMELINE */
+  .timeline-section { margin-bottom:72px; }
+  .section-heading { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(28px,4vw,42px); text-transform:uppercase; letter-spacing:0.02em; color:var(--text); margin-bottom:8px; }
+  .section-heading span { color:var(--gold); }
+  .section-lead { font-size:14px; color:var(--muted); line-height:1.7; margin-bottom:40px; max-width:520px; }
+
+  .timeline { display:flex; flex-direction:column; gap:0; }
+  .tl-item { display:grid; grid-template-columns:80px 1fr; gap:0; position:relative; }
+  .tl-item:not(:last-child) .tl-line { position:absolute; left:38px; top:48px; bottom:0; width:2px; background:var(--border); }
+  .tl-left { display:flex; flex-direction:column; align-items:center; padding-top:6px; }
+  .tl-dot { width:16px; height:16px; border-radius:50%; background:var(--bg); border:2px solid var(--border); flex-shrink:0; transition:all 0.3s; position:relative; z-index:1; }
+  .tl-item.active .tl-dot { background:var(--gold); border-color:var(--gold); box-shadow:0 0 0 4px rgba(201,168,76,0.15); }
+  .tl-time { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.12em; color:var(--subtle); margin-top:8px; white-space:nowrap; }
+  .tl-right { padding:4px 0 36px 20px; }
+  .tl-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:17px; letter-spacing:0.06em; text-transform:uppercase; color:var(--text); margin-bottom:6px; }
+  .tl-item.active .tl-title { color:var(--gold); }
+  .tl-desc { font-size:13px; line-height:1.7; color:var(--muted); max-width:560px; }
+
+  /* WHAT YOU LEARN */
+  .learn-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:72px; }
+  .learn-card { background:var(--bg-card); border:1px solid var(--border); border-radius:6px; padding:24px; transition:border-color 0.2s,transform 0.2s; cursor:default; }
+  .learn-card:hover { border-color:rgba(201,168,76,0.4); transform:translateY(-3px); }
+  .learn-icon { width:36px; height:36px; border-radius:4px; background:rgba(201,168,76,0.1); display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+  .learn-icon svg { width:18px; height:18px; stroke:var(--gold); fill:none; stroke-width:1.5; stroke-linecap:round; }
+  .learn-card-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text); margin-bottom:8px; }
+  .learn-card-desc { font-size:12px; line-height:1.7; color:var(--muted); }
+  .learn-tag { display:inline-block; background:rgba(212,84,10,0.12); color:var(--orange); font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; padding:3px 8px; border-radius:2px; margin-top:10px; }
+
+  /* WHAT TO BRING */
+  .bring-section { margin-bottom:72px; display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
+  .bring-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .bring-list li { display:flex; align-items:flex-start; gap:12px; font-size:13px; line-height:1.6; color:var(--muted); }
+  .bring-list li::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--gold); flex-shrink:0; margin-top:6px; }
+  .bring-list li strong { color:var(--text); font-weight:500; }
+
+  .info-box { background:var(--bg-card); border:1px solid var(--border); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; padding:24px; }
+  .info-box-label { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+  .info-row { display:flex; justify-content:space-between; align-items:baseline; padding:8px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .info-row:last-child { border-bottom:none; }
+  .info-key { color:var(--muted); font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; }
+  .info-val { color:var(--text); font-weight:500; }
+  .info-val.gold { color:var(--gold); }
+
+  /* CTA STRIP */
+  .cta-strip { background:var(--gold); border-radius:6px; padding:40px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .cta-strip-text h3 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:32px; text-transform:uppercase; letter-spacing:0.02em; color:var(--bg); }
+  .cta-strip-text p { font-size:13px; color:rgba(15,20,16,0.65); margin-top:4px; }
+  .cta-strip-btn { background:var(--bg); color:var(--gold); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding:14px 36px; border-radius:3px; white-space:nowrap; transition:background 0.2s; }
+  .cta-strip-btn:hover { background:#1a2e1a; }
+
+  @media (max-width:768px) {
+    .stats-row { grid-template-columns:1fr 1fr; }
+    .learn-grid { grid-template-columns:1fr; }
+    .bring-section { grid-template-columns:1fr; }
+    .page-hero { padding:60px 20px 48px; }
+    .content { padding:40px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sticky">
+  <a href="/" class="nav-logo">Jungle</a>
+  <div class="nav-links">
+    <a href="/warsztaty.html" class="active">Warsztaty</a>
+    <a href="/kontakt.html">Kontakt</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-eyebrow reveal">Program</div>
+    <h1 class="page-title reveal">Coffee<br><span>Workshops</span></h1>
+    <p class="page-sub reveal">Kameralne sesje w prawdziwym domu — bez kawiarnianego zgiełku, bez pośpiechu. Tylko Ty, ekspres i człowiek, który spędził 5 lat na obsesyjnym doskonaleniu każdego parametru espresso.</p>
+  </div>
+</div>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Espresso<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Latte Art<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Extraction<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Grind Size<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Tamping<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Tasting<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Espresso<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Latte Art<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Extraction<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Grind Size<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Tamping<span class="marquee-dot"> ✦ </span></span>
+    <span class="marquee-item">Tasting<span class="marquee-dot"> ✦ </span></span>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="stats-row reveal">
+    <div class="stat-box">
+      <span class="stat-num">2h</span>
+      <span class="stat-label">Czas sesji</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">1–4</span>
+      <span class="stat-label">Osoby</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">5</span>
+      <span class="stat-label">Lat doświadczenia</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">0</span>
+      <span class="stat-label">Wymaganej wiedzy</span>
+    </div>
+  </div>
+
+  <div class="timeline-section">
+    <div class="section-heading reveal">Plan <span>sesji</span></div>
+    <p class="section-lead reveal">Każde spotkanie jest inne — ale poniżej przykładowy przebieg 2-godzinnej sesji espresso.</p>
+    <div class="timeline">
+      <div class="tl-item active reveal">
+        <div class="tl-line"></div>
+        <div class="tl-left"><div class="tl-dot"></div><span class="tl-time">0:00</span></div>
+        <div class="tl-right">
+          <div class="tl-title">Przywitanie i kawa dla rozgrzewki</div>
+          <div class="tl-desc">Zaczynamy od rozmowy — co lubisz pić, czego używasz w domu, czego się boisz. Ja parzę, Ty pijesz i zadajesz pytania bez filtra.</div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-line"></div>
+        <div class="tl-left"><div class="tl-dot"></div><span class="tl-time">0:20</span></div>
+        <div class="tl-right">
+          <div class="tl-title">Teoria ekstrakcji</div>
+          <div class="tl-desc">Dlaczego kawa jest gorzka, kwaśna albo nijaka. Co to jest TDS, yield, i dlaczego grubość mielenia zmienia wszystko. Bez chemicznego żargonu — tylko to co przydatne.</div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-line"></div>
+        <div class="tl-left"><div class="tl-dot"></div><span class="tl-time">0:45</span></div>
+        <div class="tl-right">
+          <div class="tl-title">Praktyka przy ekspresie</div>
+          <div class="tl-desc">Twoje ręce na tamperze, Twoje decyzje. Zmieniamy jeden parametr na raz i razem smakujemy różnicę. Uczysz się czuć kawę, a nie tylko ją robić.</div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-line"></div>
+        <div class="tl-left"><div class="tl-dot"></div><span class="tl-time">1:20</span></div>
+        <div class="tl-right">
+          <div class="tl-title">Mleko i latte art (opcjonalnie)</div>
+          <div class="tl-desc">Jeśli chcesz — uczymy się spieniać mleko i robić proste wzory. Serce, tulipan, rozetka. Nie potrzebujesz być artystą żeby to osiągnąć.</div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-line"></div>
+        <div class="tl-left"><div class="tl-dot"></div><span class="tl-time">1:45</span></div>
+        <div class="tl-right">
+          <div class="tl-title">Twój personal setup</div>
+          <div class="tl-desc">Co powinieneś kupić, co możesz pominąć. Jakie ziarna warto spróbować. Jak ustawić swój konkretny ekspres w domu. Wyniesiesz ze sobą konkretny plan działania.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading reveal" style="margin-bottom:8px">Czego się <span style="color:var(--gold)">nauczysz</span></div>
+  <p class="section-lead reveal">Wybierasz co Cię interesuje — sesja jest dostosowana do Ciebie.</p>
+  <div class="learn-grid">
+    <div class="learn-card reveal">
+      <div class="learn-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+      </div>
+      <div class="learn-card-title">Podstawy espresso</div>
+      <div class="learn-card-desc">Ciśnienie, temperatura, czas ekstrakcji. Jak każdy parametr wpływa na smak i jak je kontrolować.</div>
+      <span class="learn-tag">Popularne</span>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-icon">
+        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      </div>
+      <div class="learn-card-title">Spienianie mleka</div>
+      <div class="learn-card-desc">Technika worteksu, temperatura, konsystencja. Od flat white przez latte do cappuccino.</div>
+      <span class="learn-tag">Ulubione</span>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 12 8 9 8 6a4 4 0 0 1 8 0c0 3-4 6-4 6z"/><path d="M8.5 14.5s-3 1-3 3.5c0 2 1.5 3 6.5 3s6.5-1 6.5-3c0-2.5-3-3.5-3-3.5"/></svg>
+      </div>
+      <div class="learn-card-title">Dobór ziaren</div>
+      <div class="learn-card-desc">Single origin vs blend, poziom palenia, świeżość. Jak czytać etykietę i co naprawdę ma znaczenie.</div>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="learn-card-title">Kalibracja ekspresu</div>
+      <div class="learn-card-desc">Jak ustawić swój konkretny sprzęt krok po kroku. Grubość mielenia, doza, yield — do swojego gustu.</div>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+      </div>
+      <div class="learn-card-title">Degustacja</div>
+      <div class="learn-card-desc">Jak opisywać smak. Kwasowość, słodycz, ciało, finisz. Słownik degustacyjny który naprawdę przydaje się w domu.</div>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div class="learn-card-title">Metody alternatywne</div>
+      <div class="learn-card-desc">Aeropress, chemex, V60, moka. Każda metoda ma swój charakter — znajdziemy Twoją ulubioną.</div>
+    </div>
+  </div>
+
+  <div class="bring-section">
+    <div>
+      <div class="section-heading reveal">Co <span style="color:var(--gold)">przynieść</span></div>
+      <p class="section-lead reveal">Nic specjalnego — sprzęt i kawę mam. Wystarczy że przyjdziesz.</p>
+      <ul class="bring-list reveal">
+        <li><strong>Ciekawość</strong> — jedyna rzecz która jest naprawdę wymagana</li>
+        <li><strong>Otwarty umysł</strong> — prawdopodobnie nauczysz się że robiłeś coś inaczej niż trzeba</li>
+        <li><strong>Apetyt</strong> — wypijesz sporo kawy przez 2 godziny</li>
+        <li>Opcjonalnie: <strong>swój ekspres lub ziarna</strong> jeśli chcesz żebym ocenił Twój setup</li>
+        <li>Opcjonalnie: <strong>listę pytań</strong> — im bardziej szczegółowych, tym lepiej</li>
+      </ul>
+    </div>
+    <div>
+      <div class="info-box reveal">
+        <div class="info-box-label">Szczegóły</div>
+        <div class="info-row"><span class="info-key">Czas trwania</span><span class="info-val">2 godziny</span></div>
+        <div class="info-row"><span class="info-key">Lokalizacja</span><span class="info-val">Mój dom, Łódź</span></div>
+        <div class="info-row"><span class="info-key">Liczba osób</span><span class="info-val">1–4 osoby</span></div>
+        <div class="info-row"><span class="info-key">Poziom</span><span class="info-val">Każdy</span></div>
+        <div class="info-row"><span class="info-key">Cena</span><span class="info-val gold">Do ustalenia</span></div>
+        <div class="info-row"><span class="info-key">Język</span><span class="info-val">Polski / English</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-strip reveal">
+    <div class="cta-strip-text">
+      <h3>Brzmi ciekawie?</h3>
+      <p>Wypełnij ankietę i daj mi znać czego szukasz.</p>
+    </div>
+    <a href="/#ankieta" class="cta-strip-btn">Wypełnij ankietę</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Jungle</div>
+    <div class="footer-links">
+      <a href="/warsztaty.html">Warsztaty</a>
+      <a href="/kontakt.html">Kontakt</a>
+    </div>
+    <div class="footer-copy">© 2026 Jungle Coffee & Workshops</div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('in'), i * 55); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
