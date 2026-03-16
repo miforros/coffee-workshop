@@ -81,9 +81,9 @@
     <div class="contact-form-wrap reveal">
       <div class="form-title">Napisz wiadomość</div>
       <div id="contact-form">
-        <div class="field"><label>Imię</label><input type="text" placeholder="Jak masz na imię?"></div>
-        <div class="field"><label>Email</label><input type="email" placeholder="Twój adres email"></div>
-        <div class="field"><label>Wiadomość</label><textarea placeholder="Napisz o co chodzi — pytanie, propozycja terminu, wszystko jest okej..."></textarea></div>
+        <div class="field"><label>Imię</label><input type="text" id="c-name" placeholder="Jak masz na imię?"></div>
+        <div class="field"><label>Email</label><input type="email" id="c-email" placeholder="Twój adres email"></div>
+        <div class="field"><label>Wiadomość</label><textarea id="c-message" placeholder="Napisz o co chodzi — pytanie, propozycja terminu, wszystko jest okej..."></textarea></div>
         <button class="send-btn" onclick="sendForm()">Wyślij wiadomość</button>
       </div>
       <div class="form-sent" id="form-sent">
@@ -114,7 +114,26 @@
   </div>
 </footer>
 <script>
-  function sendForm() { document.getElementById('contact-form').style.display='none'; document.getElementById('form-sent').style.display='block'; }
+  async function sendForm() {
+    var btn = document.querySelector('.send-btn');
+    btn.disabled = true;
+    btn.textContent = 'Wysyłam...';
+    var data = {
+      name: document.getElementById('c-name').value.trim() || null,
+      email: document.getElementById('c-email').value.trim() || null,
+      message: document.getElementById('c-message').value.trim() || null
+    };
+    try {
+      var res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error();
+    } catch(err) { console.error(err); }
+    document.getElementById('contact-form').style.display = 'none';
+    document.getElementById('form-sent').style.display = 'block';
+  }
   function toggleFaq(el) { var item=el.closest('.faq-item'); var isOpen=item.classList.contains('open'); document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');}); if(!isOpen) item.classList.add('open'); }
   var io = new IntersectionObserver(function(entries){ entries.forEach(function(e,i){ if(e.isIntersecting){ setTimeout(function(){ e.target.classList.add('in'); },i*55); io.unobserve(e.target); } }); },{threshold:0.07});
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });

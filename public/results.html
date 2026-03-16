@@ -358,6 +358,7 @@
     <div class="tabs">
       <button class="tab active" onclick="showTab('responses')">Lista odpowiedzi</button>
       <button class="tab" onclick="showTab('charts')">Statystyki</button>
+      <button class="tab" onclick="showTab('contacts')">Kontakt <span id="contacts-badge"></span></button>
     </div>
 
     <!-- RESPONSES -->
@@ -404,6 +405,28 @@
     </div>
   </div>
 
+    <!-- CONTACTS -->
+    <div class="panel" id="panel-contacts">
+      <div class="section" style="padding:0;overflow:hidden;">
+        <div class="table-wrap">
+          <table class="responses-table">
+            <thead>
+              <tr>
+                <th>Imię</th>
+                <th>Email</th>
+                <th>Wiadomość</th>
+                <th>Data</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="contacts-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
 <script>
@@ -440,16 +463,20 @@
       if (res.status === 401) { document.getElementById('loading').style.display='none'; document.getElementById('auth-screen').style.display='flex'; document.getElementById('auth-error').style.display='block'; return; }
       if (!res.ok) throw new Error();
       const data = await res.json();
-      renderDashboard(data);
+      // also fetch contacts
+      const cRes = await fetch(`/api/contact?key=${encodeURIComponent(currentKey)}`);
+      const cData = cRes.ok ? await cRes.json() : { total: 0, contacts: [] };
+      renderDashboard(data, cData);
     } catch { document.getElementById('loading').style.display='none'; document.getElementById('auth-screen').style.display='flex'; document.getElementById('auth-error').style.display='block'; }
   }
 
-  function renderDashboard({ total, responses }) {
+  function renderDashboard({ total, responses }, cData) {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     document.getElementById('total-count').textContent = total;
     renderTable(responses);
     renderCharts(responses, total);
+    renderContacts(cData || { total: 0, contacts: [] });
   }
 
   function renderTable(responses) {
@@ -518,6 +545,49 @@
         <div class="bar-track"><div class="bar-fill" data-width="${w}%" style="width:0"></div></div>
       </div>`;
     }).join('');
+  }
+
+  function renderContacts({ total, contacts }) {
+    const badge = document.getElementById('contacts-badge');
+    if (badge) badge.textContent = total > 0 ? '(' + total + ')' : '';
+
+    const tbody = document.getElementById('contacts-body');
+    if (!contacts || contacts.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><span class="empty-icon">✉</span>Brak wiadomości jeszcze.</div></td></tr>';
+      return;
+    }
+    const sorted = [...contacts].sort((a,b) => new Date(b.submittedAt||0) - new Date(a.submittedAt||0));
+    tbody.innerHTML = sorted.map(c => {
+      const date = c.submittedAt ? new Date(c.submittedAt).toLocaleDateString('pl-PL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : '—';
+      const id = esc(c._id || '');
+      return '<tr id="crow-' + id + '">' +
+        '<td class="name-cell">' + (c.name ? esc(c.name) : '<em style="color:var(--subtle)">—</em>') + '</td>' +
+        '<td>' + (c.email ? '<a href="mailto:' + esc(c.email) + '" style="color:var(--gold);text-decoration:none">' + esc(c.email) + '</a>' : '—') + '</td>' +
+        '<td style="max-width:280px;color:var(--muted)">' + (c.message ? esc(c.message) : '—') + '</td>' +
+        '<td class="date-cell">' + date + '</td>' +
+        '<td>' + (id ? '<button class="delete-btn" onclick="deleteContact(\'' + id + '\')">Usuń</button>' : '') + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  async function deleteContact(id) {
+    if (!confirm('Usunąć tę wiadomość?')) return;
+    const btn = document.querySelector('#crow-' + id + ' .delete-btn');
+    if (btn) { btn.disabled = true; btn.textContent = '...'; }
+    try {
+      const res = await fetch('/api/contact?key=' + encodeURIComponent(currentKey) + '&id=' + encodeURIComponent(id), { method: 'DELETE' });
+      if (!res.ok) throw new Error();
+      const row = document.getElementById('crow-' + id);
+      if (row) { row.classList.add('row-deleted'); setTimeout(() => row.remove(), 700); }
+      const badge = document.getElementById('contacts-badge');
+      if (badge) {
+        const n = parseInt(badge.textContent.replace(/[()]/g,'')) || 0;
+        badge.textContent = n > 1 ? '(' + (n-1) + ')' : '';
+      }
+    } catch {
+      if (btn) { btn.disabled = false; btn.textContent = 'Usuń'; }
+      alert('Błąd. Spróbuj ponownie.');
+    }
   }
 
   function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
