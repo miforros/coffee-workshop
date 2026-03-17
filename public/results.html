@@ -4,49 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jungle — Wyniki Ankiety</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/_shared.css">
 <style>
   :root {
-    --bg:        #0f1410;
-    --bg-card:   #162014;
-    --bg-input:  #0c0f0d;
-    --border:    #2a3d2a;
-    --gold:      #c9a84c;
-    --orange:    #d4540a;
-    --orange-h:  #e8620f;
-    --text:      #f0ede0;
-    --muted:     #7a8a7a;
-    --subtle:    #3a4a3a;
     --danger:    #b94040;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-weight: 400;
-    min-height: 100vh;
-  }
-
   nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    height: 56px;
-    border-bottom: 1px solid var(--border);
     background: var(--bg);
-  }
-
-  .nav-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: 0.05em;
-    color: var(--gold);
-    text-transform: uppercase;
   }
 
   .wrap {
@@ -424,8 +392,8 @@
         </div>
       </div>
     </div>
-
   </div>
+
 
 </div>
 
@@ -446,7 +414,8 @@
   });
 
   function showTab(name) {
-    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i===0&&name==='responses')||(i===1&&name==='charts')));
+    var tabNames = ['responses','charts','contacts'];
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', tabNames[i] === name));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.getElementById(`panel-${name}`).classList.add('active');
     if (name === 'charts') setTimeout(() => document.querySelectorAll('.bar-fill').forEach(el => el.style.width = el.dataset.width), 50);
@@ -459,12 +428,13 @@
     document.getElementById('loading').style.display = 'block';
     document.getElementById('auth-error').style.display = 'none';
     try {
-      const res = await fetch(`/api/results?key=${encodeURIComponent(currentKey)}`);
+      const [res, cRes] = await Promise.all([
+        fetch(`/api/results?key=${encodeURIComponent(currentKey)}`),
+        fetch(`/api/contact?key=${encodeURIComponent(currentKey)}`)
+      ]);
       if (res.status === 401) { document.getElementById('loading').style.display='none'; document.getElementById('auth-screen').style.display='flex'; document.getElementById('auth-error').style.display='block'; return; }
       if (!res.ok) throw new Error();
       const data = await res.json();
-      // also fetch contacts
-      const cRes = await fetch(`/api/contact?key=${encodeURIComponent(currentKey)}`);
       const cData = cRes.ok ? await cRes.json() : { total: 0, contacts: [] };
       renderDashboard(data, cData);
     } catch { document.getElementById('loading').style.display='none'; document.getElementById('auth-screen').style.display='flex'; document.getElementById('auth-error').style.display='block'; }

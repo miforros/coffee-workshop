@@ -4,7 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jungle — Warsztaty Kawowe</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="description" content="Kameralne warsztaty kawowe w Łodzi. Naucz się parzenia espresso, latte art i degustacji kawy w domowej atmosferze.">
+<meta property="og:title" content="Jungle Coffee — Warsztaty Kawowe">
+<meta property="og:description" content="Kameralne warsztaty kawowe w Łodzi. Dla tych, którzy traktują kawę poważnie.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/_shared.css">
 <style>
   .hero-section { position:relative; width:100%; min-height:100vh; display:flex; flex-direction:column; overflow:hidden; }
@@ -210,6 +216,7 @@
 <script>
   var ptColors = ['#c9a84c','#2a5a2a','#d4540a','#1e3a1e'];
   var pc = document.getElementById('particles');
+  var ptInterval = null;
   function mkPt() {
     var p = document.createElement('div'); p.className = 'pt';
     var s = Math.random()*3+1;
@@ -217,7 +224,12 @@
     pc.appendChild(p);
     setTimeout(function(){p.remove();},12000);
   }
-  setInterval(mkPt, 350);
+  ptInterval = setInterval(mkPt, 350);
+  var heroObs = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){ if(!ptInterval) ptInterval = setInterval(mkPt, 350); }
+    else { clearInterval(ptInterval); ptInterval = null; }
+  },{threshold:0});
+  heroObs.observe(document.querySelector('.hero-section'));
 
   document.getElementById('cta-scroll').addEventListener('click', function() {
     document.getElementById('ankieta').scrollIntoView({ behavior:'smooth', block:'start' });
@@ -246,9 +258,14 @@
     try {
       var res = await fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       if(!res.ok) throw new Error();
-    } catch(err){ console.error(err); }
-    document.getElementById('survey').style.display='none';
-    document.getElementById('thankyou').style.display='block';
+      document.getElementById('survey').style.display='none';
+      document.getElementById('thankyou').style.display='block';
+    } catch(err){
+      console.error(err);
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Wyślij odpowiedzi';
+      alert('Coś poszło nie tak. Spróbuj ponownie.');
+    }
   });
 
   var io = new IntersectionObserver(function(entries){
